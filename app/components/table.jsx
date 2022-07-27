@@ -36,6 +36,17 @@ function Table({ columns, data }) {
         headerGroups,
         rows,
         prepareRow,
+
+        page,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
+
         state,
         setGlobalFilter,
         preGlobalFilteredRows,
@@ -47,6 +58,7 @@ function Table({ columns, data }) {
         //useFilters,
         useGlobalFilter,
         useSortBy,
+        usePagination,
     );
 
     return (
@@ -72,7 +84,7 @@ function Table({ columns, data }) {
                 ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-            {rows.map((row, i) => {
+            {page.map((row, i) => {
                 prepareRow(row);
                 return (
                     <tr {...row.getRowProps()}>
@@ -84,6 +96,37 @@ function Table({ columns, data }) {
             })}
             </tbody>
         </table>
+            <div className="pagination">
+                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                    {'<<'}
+                </button>{' '}
+                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    {'<'}
+                </button>{' '}
+                <button onClick={() => nextPage()} disabled={!canNextPage}>
+                    {'>'}
+                </button>{' '}
+                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                    {'>>'}
+                </button>{' '}
+                <span>
+                    Page{' '}
+                    <strong>
+                        {state.pageIndex + 1} of {pageOptions.length}
+                    </strong>{' '}
+                </span>
+                <select
+                    value={state.pageSize}
+                    onChange={e => {
+                        setPageSize(Number(e.target.value))
+                    }}>
+                        {[2, 5, 10, 20].map(pageSize => (
+                        <option key={pageSize} value={pageSize}>
+                            Show {pageSize}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </>
     );
 }
