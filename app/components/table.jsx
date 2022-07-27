@@ -1,18 +1,61 @@
 import React from 'react';
 import { useTable, useSortBy, useFilters } from 'react-table';
+import { useGlobalFilter, usePagination} from 'react-table'
+
+
+function GlobalFilter({
+                          preGlobalFilteredRows,
+                          globalFilter,
+                          setGlobalFilter,
+                      }) {
+    const count = preGlobalFilteredRows.length
+    const [value, setValue] = React.useState(globalFilter)
+    const onChange = value => {
+        setGlobalFilter(value || undefined)
+    };
+
+    return (
+        <span>
+      Search:{' '}
+            <input
+                value={value || ""}
+                onChange={e => {
+                    setValue(e.target.value);
+                    onChange(e.target.value);
+                }}
+                placeholder={`${count} records...`}
+            />
+    </span>
+    )
+}
 
 function Table({ columns, data }) {
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        state,
+        setGlobalFilter,
+        preGlobalFilteredRows,
+    } = useTable (
         {
         columns,
         data,
         },
-        useFilters,
+        //useFilters,
+        useGlobalFilter,
         useSortBy,
     );
 
     return (
+        <>
+        <GlobalFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+        />
         <table {...getTableProps()} border="1">
             <thead>
                 {headerGroups.map((headerGroup) => (
@@ -41,6 +84,7 @@ function Table({ columns, data }) {
             })}
             </tbody>
         </table>
+        </>
     );
 }
 
