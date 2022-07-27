@@ -29,6 +29,7 @@ function EventTable() {
             {
                 Header: "Автор",
                 accessor: "author",
+                Cell: e =><a href={'/profile/' + e.value}> {e.value} </a>
             },
             {
                 Header: "Время начала",

@@ -25,11 +25,12 @@ function RequestTable() {
             {
                 Header: "Подписчик",
                 accessor: "user",
+                Cell: e =><a href={'/profile/' + e.value}> {e.value} </a>
             },
             {
                 Header: "Автор ивента",
                 accessor: "author",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: e =><a href={'/profile/' + e.value}> {e.value} </a>
             },
             {
                 Header: "Время создания",

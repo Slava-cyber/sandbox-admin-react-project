@@ -19,10 +19,6 @@ function UserTable() {
     const columns = React.useMemo(
         () => [
             {
-                Header: "id",
-                accessor: "id",
-            },
-            {
                 Header: "Имя",
                 accessor: "name",
             },
@@ -33,6 +29,22 @@ function UserTable() {
             {
                 Header: "Логин",
                 accessor: "login",
+            },
+            {
+                Header: "Email",
+                accessor: "email",
+                Cell: ({ cell: { value } }) => value || "-",
+            },
+            {
+                Header: "Время Регистрации",
+                accessor: "dateCreated",
+                Cell: ({ cell: { value } }) => value || "-",
+            },
+            {
+                Header: "Аватар",
+                accessor: "avatar",
+                Cell: e => <img className="rounded-circle image-admin"
+                                src={e.value ? e.value : "/images/system/avatar_null.jpg"}/>
             },
             {
                 Header: "Дата рождения",
