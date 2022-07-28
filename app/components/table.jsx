@@ -29,12 +29,11 @@ function GlobalFilter({
     )
 }
 
-function Table({ columns, data }) {
+function Table({ columns, data}) {
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
         prepareRow,
 
         page,
