@@ -3,18 +3,52 @@ import Table from './table.jsx';
 
 function UserTable() {
     const [data, setData] = useState([]);
+
     useEffect(() => {
-        fetch('/userApiRequest', {
+        getData()
+            .then(
+                response => setData(response)
+            );
+    }, []);
+
+    function deleteObject(id) {
+        console.log(id);
+        const requestOptions = {
             method: 'POST',
-            mode: 'cors',
-            body: JSON.stringify({'giveData':'give'}),
-            headers: {'Content-Type': 'application/json;charset=utf-8'}})
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify (
+                {
+                    'entityType': 'user',
+                    'id': id
+                }
+            )
+        };
+        fetch('/userApiDelete', requestOptions)
             .then(response => response.json())
             .then((data) => {
-                console.log(data)
-                setData(data)
+                if (data['status']) {
+                    getData()
+                        .then(
+                            response => setData(response)
+                        );
+                }
+            });
+    }
+
+    function getData() {
+        return new Promise(function(resolve, reject) {
+            fetch('/userApiRequest', {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify({'giveData': 'give'}),
+                headers: {'Content-Type': 'application/json;charset=utf-8'}
             })
-    }, []);
+                .then(response => response.json())
+                .then((data) => {
+                    resolve(data);
+                });
+        })
+    }
 
     const columns = React.useMemo(
         () => [
@@ -29,6 +63,7 @@ function UserTable() {
             {
                 Header: "Логин",
                 accessor: "login",
+                Cell: e =><a href={'/profile/' + e.value}> {e.value} </a>
             },
             {
                 Header: "Email",
@@ -69,6 +104,13 @@ function UserTable() {
                 Header: "Роль",
                 accessor: "role",
             },
+            {
+                Header: "",
+                id:'delete',
+                accessor: "id",
+                Cell: e=> <button className="col-5" onClick={function () {deleteObject(e.value)}}>delete</button>
+            },
+
         ],
         []
     );
