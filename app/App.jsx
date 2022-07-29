@@ -8,10 +8,10 @@ import RequestTable from "./components/requestTable.jsx";
 function App() {
     return (
         <Routes>
-            <Route path="/admin" element={<UserTable/>}/>
-            <Route path="/admin/user" element={<UserTable/>}/>
-            <Route path="/admin/event" element={<EventTable/>}/>
-            <Route path="/admin/request" element={<RequestTable/>}/>
+            <Route path="/admin" element={<UserTable entity={'user'}/>}/>
+            <Route path="/admin/user" element={<UserTable entity={'user'}/>}/>
+            <Route path="/admin/event" element={<UserTable entity={'event'}/>}/>
+            <Route path="/admin/request" element={<UserTable entity={'request'}/>}/>
             <Route path="*" element={<PageDoesNotExist/>}/>
         </Routes>
     )
