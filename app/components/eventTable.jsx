@@ -1,58 +1,19 @@
 import React, { useEffect , useState} from 'react';
 import Table from './table.jsx';
+import {getData} from './tablefunction.jsx';
+import {deleteObject} from './tablefunction.jsx';
+import {ColumnsEventTable} from './tablefunction.jsx';
 
-function EventTable() {
+function EventTable(props) {
     const [data, setData] = useState([]);
     useEffect(() => {
-        fetch('/eventApiRequest', {
-            method: 'POST',
-            mode: 'cors',
-            body: JSON.stringify({'giveData':'give'}),
-            headers: {'Content-Type': 'application/json;charset=utf-8'}})
-            .then(response => response.json())
-            .then((data) => {
-                console.log(data)
-                setData(data)
-            })
+        getData(props.entity)
+            .then(
+                response => setData(response)
+            );
     }, []);
 
-    const columns = React.useMemo(
-        () => [
-            {
-                Header: "Заголовок",
-                accessor: "title",
-            },
-            {
-                Header: "Категория",
-                accessor: "category",
-            },
-            {
-                Header: "Автор",
-                accessor: "author",
-                Cell: e =><a href={'/profile/' + e.value}> {e.value} </a>
-            },
-            {
-                Header: "Время начала",
-                accessor: "datetime",
-            },
-            {
-                Header: "Город",
-                accessor: "town",
-                Cell: ({ cell: { value } }) => value || "-"
-            },
-            {
-                Header: "Время создания",
-                accessor: "dateCreated",
-                Cell: ({ cell: { value } }) => value || "-"
-            },
-            {
-                Header: "Описание",
-                accessor: "description",
-                Cell: ({ cell: { value } }) => value || "-"
-            },
-        ],
-        []
-    );
+    const columns = ColumnsEventTable(props, setData, deleteObject);
 
     return (
         <>
