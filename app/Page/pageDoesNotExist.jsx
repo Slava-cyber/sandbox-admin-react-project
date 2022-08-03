@@ -2,7 +2,7 @@ import React from 'react';
 
 function PageDoesNotExist() {
     return (
-        <h2>Ты не пройдешь</h2>
+        <h5>Ты не пройдешь</h5>
     );
 }
 
