@@ -17,13 +17,12 @@ export const getData = (entity) => {
 }
 
 export const deleteObject = (id, entity, setData) => {
-    console.log(id);
     const requestOptions = {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify (
             {
-                'entityType': 'user',
+                'entityType': entity,
                 'id': id
             }
         )
@@ -41,7 +40,6 @@ export const deleteObject = (id, entity, setData) => {
 }
 
 export const ColumnsUserTable = (props, setData, deleteObject) => {
-    console.log(props);
     const columns = React.useMemo(
         () => [
             {
@@ -115,6 +113,10 @@ export const ColumnsEventTable = (props, setData, deleteObject) => {
         const columns = React.useMemo(
         () => [
             {
+                Header: "id",
+                accessor: "id",
+            },
+            {
                 Header: "Заголовок",
                 accessor: "title",
             },
@@ -145,6 +147,13 @@ export const ColumnsEventTable = (props, setData, deleteObject) => {
                 Header: "Описание",
                 accessor: "description",
                 Cell: ({ cell: { value } }) => value || "-"
+            },
+            {
+                Header: "",
+                id:'delete',
+                accessor: "id",
+                Cell: e=> <button className="btn btn-link" onClick={function () {deleteObject(e.value, props.entity, setData)}}>
+                    удалить</button>
             },
         ],
         []
@@ -178,6 +187,13 @@ export const ColumnsRequestTable = (props, setData, deleteObject) => {
                 Header: "Статус",
                 accessor: "status",
                 Cell: ({ cell: { value } }) => value || "-"
+            },
+            {
+                Header: "",
+                id:'delete',
+                accessor: "id",
+                Cell: e=> <button className="btn btn-link" onClick={function () {deleteObject(e.value, props.entity, setData)}}>
+                    удалить</button>
             },
         ],
         []

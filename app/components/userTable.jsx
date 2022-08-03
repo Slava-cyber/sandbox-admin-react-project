@@ -11,8 +11,6 @@ function UserTable(props) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        console.log(props.entity);
-        //getData(props.entity);
         getData(props.entity)
             .then(
                 response => setData(response)
@@ -22,7 +20,6 @@ function UserTable(props) {
     var columns = [];
     var title = "";
     if (props.entity === 'user') {
-        console.log('user');
         columns = ColumnsUserTable(props, setData, deleteObject);
         title = "Таблица пользователей";
     } else if (props.entity === 'event') {
