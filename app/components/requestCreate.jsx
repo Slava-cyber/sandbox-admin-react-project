@@ -1,4 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
+import Input from "./htmlBlocks/input.jsx";
+import Select from "./htmlBlocks/select.jsx";
 
 function RequestCreate(props) {
 
@@ -10,6 +13,8 @@ function RequestCreate(props) {
             status: "Ожидает подтверждения",
         }
     });
+
+    const options = ["Ожидает подтверждения", "Запрос принят", "Запрос отклонен"];
 
     const [error, setError] = useState(() => {
         return {
@@ -61,9 +66,9 @@ function RequestCreate(props) {
             });
     }
 
-
     const changeInputField = event => {
         event.persist()
+        console.log(12);
         setRequestData(prev => {
             return {
                 ...prev,
@@ -129,54 +134,25 @@ function RequestCreate(props) {
                         <h3 className="text-center mb-5">Форма создания запроса</h3>
                         <div className="row justify-content-center">
                             <div className="col-md-2">
-                                <div className="form-group py-2">
-                                    <input type="number" name="event" className={"form-control " + error.event}
-                                           placeholder="id ивента" id="event"
-                                           min="0" value={requestData.event} onChange={changeIdEvent}/>
-                                    <small id="idHelp" className="form-text form-muted">{errorText.event}</small>
-                                </div>
+                                    <Input type={'number'} placeholder={'id ивента'} class = {error.event}
+                                           id={"event"} value = {requestData.event}
+                                           errorText = {errorText.event} change={(event) => {changeIdEvent(event)}} />
                             </div>
                             <div className="col-md-3">
-                                <div className="form-group py-2">
-                                    <input type="text" name="request_author" className={"form-control " + error.request_author}
-                                           id="request_author" placeholder="Автор поста"
-                                           value={requestData.request_author} onChange={changeInputField}/>
-                                    <small id="request_authorHelp" className="form-text form-muted">{errorText.request_author}</small>
-                                </div>
+                                <Input type={'text'} placeholder={'Автор поста'} class = {error.request_author}
+                                       id={"request_author"} value = {requestData.request_author}
+                                       errorText = {errorText.request_author} change={(event) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-3">
-                                <div className="form-group py-2">
-                                    <input type="text" name="user" className={"form-control " + error.user} id="user"
-                                           placeholder="Пользователь"
-                                           value={requestData.user} onChange={changeInputField}/>
-                                    <small id="userHelp" className="form-text form-muted">{errorText.user}</small>
-                                </div>
+                                <Input type={'text'} placeholder={'Пользователь'} class = {error.user}
+                                       id={"user"} value = {requestData.user} errorText = {errorText.user} change={(event) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-3">
-                                <div className="form-group py-2">
-                                    <select className={"form-select form-control " + error.status} name="status"
-                                            id="status" onChange={changeInputField}>
-                                        <option value="Ожидает подтверждения">
-                                            Ожидает подтверждения
-                                        </option>
-                                        <option value="Запрос принят">
-                                            Запрос принят
-                                        </option>
-                                        <option value="Запрос отклонен">
-                                            Запрос отклонен
-                                        </option>
-                                    </select>
-                                    <small id=" statusHelp" className=" form-text form-muted">{errorText.status}</small>
-                                </div>
+                                <Select id={'status'} class={error.status} errorText = {errorText.status}
+                                        options = {options} change={(event) => {changeInputField(event)}} />
                             </div>
                         </div>
-                        <div className="row mt-3">
-                            <div className="col-md-12 text-center">
-                                <button type="submit" className="btn btn-secondary my-2 w-25">
-                                    Создать
-                                </button>
-                            </div>
-                        </div>
+                        <FormSubmitButton/>
                     </form>
                 </div>
             </div>
