@@ -10,8 +10,11 @@ export const getData = (entity) => {
         })
             .then(response => response.json())
             .then((data) => {
-                console.log('data');
-                resolve(data);
+                if (data.status == false) {
+                    resolve([]);
+                } else {
+                    resolve(data);
+                }
             });
     })
 }
