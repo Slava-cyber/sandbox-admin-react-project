@@ -4,13 +4,14 @@ import PageDoesNotExist from "./Page/pageDoesNotExist.jsx";
 import UserTable from "./components/userTable.jsx";
 import EventCreate from "./components/eventCreate.jsx";
 import RequestCreate from "./components/requestCreate.jsx";
-
+import UserCreate from "./components/userCreate.jsx";
 
 function App() {
         return (
             <Routes>
                 <Route path="/admin/event/create" element={<EventCreate entity={'request'}/>}/>
                 <Route path="/admin/request/create" element={<RequestCreate entity={'request'}/>}/>
+                <Route path="/admin/user/create" element={<UserCreate entity={'request'}/>}/>
                 <Route path="/admin" element={<UserTable entity={'user'}/>}/>
                 <Route path="/admin/user" element={<UserTable entity={'user'}/>}/>
                 <Route path="/admin/event" element={<UserTable entity={'event'}/>}/>
