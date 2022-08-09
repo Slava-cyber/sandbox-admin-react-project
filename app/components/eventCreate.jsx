@@ -1,10 +1,15 @@
 import React, {useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
 import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
 import Select from "./htmlBlocks/select.jsx";
 import Textarea from "./htmlBlocks/textarea.jsx";
 import Input from "./htmlBlocks/input.jsx";
 
 function EventCreate(props) {
+
+    const params = useParams();
+
+    const [id, setId] = useState(0);
 
     const [eventData, setEventData] = useState(() => {
         return {
@@ -17,7 +22,42 @@ function EventCreate(props) {
         }
     });
 
-    const options = ["Активный отдых", " Cпорт", " Квесты/настольные игры", " Ночная жизнь", " Охота/рыбалка", " Туризм", " Другое"];
+    useEffect(() => {
+        if (params.id != null) {
+            setId(params.id);
+        } else {
+            params.id = 0;
+        }
+        const requestOptions = {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify (
+                {
+                    'id': params.id
+                }
+            )
+        };
+        fetch('/EventGetDataById', requestOptions)
+            .then(response => response.json())
+            .then((response) => {
+                if (response.status == true) {
+                    setEventData(prev => {
+                        return {
+                            ...prev,
+                            'title': response.event.title,
+                            'town': response.event.town,
+                            'datetime': response.event.datetime,
+                            'category': response.event.category,
+                            'author': response.event.author,
+                            'description': response.event.description,
+                        }
+                    })
+                }
+            });
+    }, []);
+
+    const options = ["Активный отдых", "Спорт", "Квесты/настольные игры", "Ночная жизнь", "Охота/рыбалка", "Туризм", "Другое"];
 
     const [error, setError] = useState(() => {
         return {
@@ -80,7 +120,8 @@ function EventCreate(props) {
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify (
                 {
-                    'data' : eventData
+                    'data' : eventData,
+                    'id' : id,
                 }
             )
         };
@@ -109,8 +150,14 @@ function EventCreate(props) {
         <>
             <div className="row justify-content-center">
                 <div className="col-sm-12 bg-white p-3 col-md-10">
-                    <form method="POST" action="/login" name="eventAdd" id="eventAdd" onSubmit={submitForm}>
+                    <form method="POST" action="/login" name="eventAdd" id="eventAdd"
+                          onSubmit={submitForm}>
                         <h3 className="text-center mb-5">Форма создания ивента</h3>
+                        <div className="row">
+                            <Input type={'hidden'} placeholder={''} class = {''}
+                                   id={"id"} value = {id}
+                                   errorText = {''} change={(event) => {changeInputField(event)}} />
+                        </div>
                         <div className="row">
                             <Input type={'text'} placeholder={'Заголовок'} class = {error.title}
                                    id={"title"} value = {eventData.title}
@@ -128,7 +175,7 @@ function EventCreate(props) {
                                        errorText = {errorText.datetime} change={(event) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-6">
-                                <Select options = {options} class={error.category} id={"category"}
+                                <Select options = {options} class={error.category} id={"category"} selected={eventData.category}
                                         errorText = {errorText.category}
                                         change = {(event) => {changeInputField(event)}}/>
                             </div>

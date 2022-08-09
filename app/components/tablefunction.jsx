@@ -1,4 +1,5 @@
 import React, {useMemo} from 'react';
+import Select from "./htmlBlocks/select.jsx";
 
 export const getData = (entity) => {
     return new Promise(function(resolve, reject) {
@@ -42,7 +43,29 @@ export const deleteObject = (id, entity, setData) => {
         });
 }
 
+export const changeRole = (event, id) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify (
+            {
+                'role': event.target.value,
+                'id': id
+            }
+        )
+    };
+    fetch('/userChangeRole', requestOptions)
+        .then(response => response.json())
+        .then((data) => {
+            console.log(data);
+        });
+}
+
+
+
 export const ColumnsUserTable = (props, setData, deleteObject) => {
+    const options = ["administrator", "user", "advanced user"];
+
     const columns = React.useMemo(
         () => [
             {
@@ -96,7 +119,8 @@ export const ColumnsUserTable = (props, setData, deleteObject) => {
             {
                 Header: "Роль",
                 accessor: "role",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: e => <Select options = {options} id={"role"} selected={e.value}
+                                   change = {(event) => {changeRole(event, e.row.original.id)}}/>
             },
             {
                 Header: "",
@@ -118,6 +142,7 @@ export const ColumnsEventTable = (props, setData, deleteObject) => {
             {
                 Header: "id",
                 accessor: "id",
+                Cell: e =><a href={'/admin/event/' + e.value}> {e.value} </a>
             },
             {
                 Header: "Заголовок",
