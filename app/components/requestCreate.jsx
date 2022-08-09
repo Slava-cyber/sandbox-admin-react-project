@@ -148,7 +148,7 @@ function RequestCreate(props) {
                                        id={"user"} value = {requestData.user} errorText = {errorText.user} change={(event) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-3">
-                                <Select id={'status'} class={error.status} errorText = {errorText.status}
+                                <Select id={'status'} class={error.status} errorText = {errorText.status} selected={""}
                                         options = {options} change={(event) => {changeInputField(event)}} />
                             </div>
                         </div>

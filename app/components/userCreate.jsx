@@ -77,7 +77,6 @@ function UserCreate(props) {
         const requestOptions = {
             method: 'POST',
             mode: 'cors',
-            //headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: formData
         };
         fetch('/validation', requestOptions)
@@ -231,7 +230,7 @@ function UserCreate(props) {
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <Select options = {options} class={error.sex} id={"sex"}
-                                        errorText = {errorText.sex}
+                                        errorText = {errorText.sex} selected={""}
                                         change = {(event) => {changeInputField(event)}}/>
 
                             </div>
