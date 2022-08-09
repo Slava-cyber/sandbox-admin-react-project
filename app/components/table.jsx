@@ -129,12 +129,14 @@ function Table({ columns, data}) {
                         <li className={"page-link"} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
                             {'>>'}
                         </li>{' '}
+                        <li className={"mx-3"}>
                         <span>
-                            {' '}
                             <strong>
                                 {state.pageIndex + 1} из {pageOptions.length}
                             </strong>{' '}
                         </span>
+                        </li>
+                        <li className={""}>
                         <select
                             value={state.pageSize}
                             onChange={e => {
@@ -146,6 +148,7 @@ function Table({ columns, data}) {
                                 </option>
                             ))}
                         </select>
+                        </li>
                         </ul>
                 </div>
             </div>
