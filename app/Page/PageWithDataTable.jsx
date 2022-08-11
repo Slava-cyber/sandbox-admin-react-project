@@ -4,6 +4,8 @@ import DataTable from "../components/DataTable.jsx";
 
 function PageWithDataTable(props) {
 
+    document.title = props.title;
+
     var NavbarActiveTabs =
         {
             'user': '',
