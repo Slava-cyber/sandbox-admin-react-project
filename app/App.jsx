@@ -11,7 +11,7 @@ function App() {
                 <Route path={"/admin/event/:id"} element={<CreationPage entity={'event'} title={"Реадктировать ивент"}/>}/>
                 <Route path="/admin/request/create" element={<CreationPage entity={'request'} title={"Создать запрос"}/>}/>
                 <Route path="/admin/user/create" element={<CreationPage entity={'user'} title={"Создать пользователя"}/>}/>
-                <Route path="/admin" element={<PageWithDataTable entity={'user'}/>} title={"Список пользователей"}/>
+                <Route path="/admin" element={<PageWithDataTable entity={'user'} title={"Список пользователей"}/>}/>
                 <Route path="/admin/user" element={<PageWithDataTable entity={'user'} title={"Список пользователей"}/>}/>
                 <Route path="/admin/event" element={<PageWithDataTable entity={'event'} title={"Список ивентов"}/>}/>
                 <Route path="/admin/request" element={<PageWithDataTable entity={'request'} title={"Список запросов"}/>}/>
