@@ -1,5 +1,7 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
+
 import Select from "./htmlBlocks/select.jsx";
+import DeleteModalWindow from "./htmlBlocks/ModalWindow.jsx";
 
 export const getData = (entity) => {
     return new Promise(function(resolve, reject) {
@@ -21,6 +23,7 @@ export const getData = (entity) => {
 }
 
 export const deleteObject = (id, entity, setData) => {
+    console.log(id);
     const requestOptions = {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -37,7 +40,9 @@ export const deleteObject = (id, entity, setData) => {
             if (data['status']) {
                 getData(entity)
                     .then(
-                        response => setData(response)
+                        response => {
+                            setData(response)
+                        }
                     );
             }
         });
@@ -60,8 +65,6 @@ export const changeRole = (event, id) => {
             console.log(data);
         });
 }
-
-
 
 export const ColumnsUserTable = (props, setData, deleteObject) => {
     const options = ["administrator", "user", "advanced user"];
@@ -119,17 +122,18 @@ export const ColumnsUserTable = (props, setData, deleteObject) => {
             {
                 Header: "Роль",
                 accessor: "role",
+                minWidth: 200,
                 Cell: e => <Select options = {options} id={"role"} selected={e.value}
-                                   change = {(event) => {changeRole(event, e.row.original.id)}}/>
+                                 change = {(event) => {changeRole(event, e.row.original.id)}}/>
             },
             {
                 Header: "",
                 id:'delete',
                 accessor: "id",
-                Cell: e=> <button className="btn btn-link" onClick={function () {deleteObject(e.value, props.entity, setData)}}>
-                    удалить</button>
+                Cell: e => <DeleteModalWindow value={e.value} sourceTitle={"Удалить"}
+                                              body={"Вы уверены, что хотите удалить запись в таблице?"}
+                                              delete = {(event) => {deleteObject(e.value, props.entity, setData)}}/>
             },
-
         ],
         []
     );
@@ -180,8 +184,9 @@ export const ColumnsEventTable = (props, setData, deleteObject) => {
                 Header: "",
                 id:'delete',
                 accessor: "id",
-                Cell: e=> <button className="btn btn-link" onClick={function () {deleteObject(e.value, props.entity, setData)}}>
-                    удалить</button>
+                Cell: e => <DeleteModalWindow value={e.value} sourceTitle={"Удалить"}
+                                              body={"Вы уверены, что хотите удалить запись в таблице?"}
+                                              delete = {(event) => {deleteObject(e.value, props.entity, setData)}}/>
             },
         ],
         []
@@ -220,8 +225,9 @@ export const ColumnsRequestTable = (props, setData, deleteObject) => {
                 Header: "",
                 id:'delete',
                 accessor: "id",
-                Cell: e=> <button className="btn btn-link" onClick={function () {deleteObject(e.value, props.entity, setData)}}>
-                    удалить</button>
+                Cell: e => <DeleteModalWindow value={e.value} sourceTitle={"Удалить"}
+                                              body={"Вы уверены, что хотите удалить запись в таблице?"}
+                                              delete = {(event) => {deleteObject(e.value, props.entity, setData)}}/>
             },
         ],
         []

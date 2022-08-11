@@ -87,7 +87,10 @@ function Table({ columns, data}) {
                         {headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                <th {...column.getHeaderProps([
+                                    {style: {minWidth: column.minWidth, width: column.width}},
+                                    column.getSortByToggleProps()
+                                ])}>
                                     {column.render("Header")}
                                     <span>
                                         {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
@@ -103,7 +106,9 @@ function Table({ columns, data}) {
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
-                                    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                                    return <td {...cell.getCellProps({
+                                        style: {minWidth: cell.minWidth}
+                                    })}>{cell.render("Cell")}</td>
                                 })}
                             </tr>
                         );
@@ -149,7 +154,7 @@ function Table({ columns, data}) {
                             ))}
                         </select>
                         </li>
-                        </ul>
+                    </ul>
                 </div>
             </div>
         </>
