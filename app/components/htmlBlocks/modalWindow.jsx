@@ -27,7 +27,7 @@ function DeleteModalWindow(props) {
                                     data-bs-dismiss="modal">Отмена
                             </button>
                             <button type="button" className="btn btn-primary" id="action"
-                                    onClick={props.delete} data-bs-dismiss="modal">Подвердить</button>
+                                    onClick={props.delete} data-bs-dismiss="modal">Подтвердить</button>
                         </div>
                     </div>
                 </div>

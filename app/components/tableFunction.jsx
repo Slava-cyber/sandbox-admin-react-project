@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react';
 
 import Select from "./htmlBlocks/select.jsx";
-import DeleteModalWindow from "./htmlBlocks/ModalWindow.jsx";
+import DeleteModalWindow from "./htmlBlocks/modalWindow.jsx";
 
 export const getData = (entity) => {
     return new Promise(function(resolve, reject) {
@@ -62,7 +62,6 @@ export const changeRole = (event, id) => {
     fetch('/userChangeRole', requestOptions)
         .then(response => response.json())
         .then((data) => {
-            console.log(data);
         });
 }
 

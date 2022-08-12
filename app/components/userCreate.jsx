@@ -4,6 +4,7 @@ import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
 import Input from "./htmlBlocks/input.jsx";
 import Select from "./htmlBlocks/select.jsx";
 import Textarea from "./htmlBlocks/textarea.jsx";
+import {submitForm} from "./creationFunction.jsx";
 
 function UserCreate(props) {
 
@@ -155,43 +156,27 @@ function UserCreate(props) {
         };
     }
 
-    const submitForm = event => {
-        event.preventDefault();
-        const requestOptions = {
-            method: 'POST',
-            mode: 'cors',
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify (
-                {
-                    'data' : userData
-                }
-            )
-        };
-        fetch('/UserCreateApi', requestOptions)
-            .then(response => response.json())
-            .then((response) => {
-                if (response.status == true) {
-                    window.location.href = '/admin/user';
-                } else {
-                    var errorArray = basicErrorArray();
-                    var textErrorArray =basicTextErrorArray();
-                    var fields = response.error;
-                    for (var field in fields)
-                    {
-                        errorArray[field] = 'is-invalid';
-                        textErrorArray[field] = response.error[field];
-                    }
-                    setError(errorArray);
-                    setErrorText(textErrorArray);
-                }
-            });
-    }
+    let data = {
+        'data' : userData,
+    };
+
+    let linkAfterCreation = '/admin/user'
+    let apiRequestLink = '/UserCreateApi';
 
     return (
         <>
             <div className="row justify-content-center">
                 <div className="col-sm-12 bg-white p-3 col-md-10">
-                    <form method="POST" action="/login" name="eventAdd" id="eventAdd" onSubmit={submitForm}>
+                    <form method="POST" action="/login" name="eventAdd" id="eventAdd" onSubmit={(event) => {submitForm(
+                        event,
+                        data,
+                        apiRequestLink,
+                        linkAfterCreation,
+                        basicErrorArray,
+                        basicTextErrorArray,
+                        setError,
+                        setErrorText
+                    )}}>
                         <h3 className="text-center mb-1">Форма создания пользователя</h3>
                         <div className="row justify-content-center">
                             <div className="col-md-5">

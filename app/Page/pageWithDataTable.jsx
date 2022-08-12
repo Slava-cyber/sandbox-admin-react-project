@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../components/navbar.jsx";
-import DataTable from "../components/DataTable.jsx";
+import DataTable from "../components/dataTable.jsx";
 
 function PageWithDataTable(props) {
 

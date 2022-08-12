@@ -1,10 +1,10 @@
 import React, { useEffect , useState} from 'react';
 import Table from './table.jsx';
-import {getData} from './tablefunction.jsx';
-import {deleteObject} from './tablefunction.jsx';
-import {ColumnsUserTable} from './tablefunction.jsx';
-import {ColumnsEventTable} from './tablefunction.jsx';
-import {ColumnsRequestTable} from './tablefunction.jsx';
+import {getData} from './tableFunction.jsx';
+import {deleteObject} from './tableFunction.jsx';
+import {ColumnsUserTable} from './tableFunction.jsx';
+import {ColumnsEventTable} from './tableFunction.jsx';
+import {ColumnsRequestTable} from './tableFunction.jsx';
 
 function DataTable(props) {
     const [data, setData] = useState([]);
@@ -16,8 +16,8 @@ function DataTable(props) {
             );
     }, []);
 
-    var columns = [];
-    var title = "";
+    let columns = [];
+    let title = "";
     if (props.entity === 'user') {
         columns = ColumnsUserTable(props, setData, deleteObject);
         title = "Таблица пользователей";

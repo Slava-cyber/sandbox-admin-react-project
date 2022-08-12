@@ -1,8 +1,8 @@
 import React from "react";
 
 function Select(props) {
-    var selectedArray = {};
-    for (var option of props.options) {
+    let selectedArray = {};
+    for (let option of props.options) {
         if (props.selected === option) {
             selectedArray[option] = 'selected';
         } else {

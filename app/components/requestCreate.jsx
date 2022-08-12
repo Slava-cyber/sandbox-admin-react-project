@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
 import Input from "./htmlBlocks/input.jsx";
 import Select from "./htmlBlocks/select.jsx";
+import {submitForm} from "./creationFunction.jsx";
 
 function RequestCreate(props) {
 
@@ -35,15 +36,12 @@ function RequestCreate(props) {
 
     const changeIdEvent = event => {
         event.persist();
-        console.log(requestData.event);
-        console.log(event.target.value);
         setRequestData(prev => {
             return {
                 ...prev,
                 [event.target.name]: event.target.value,
             }
         })
-        console.log(requestData.event);
         const requestOptions = {
             method: 'POST',
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
@@ -56,7 +54,6 @@ function RequestCreate(props) {
         fetch('/eventAuthorIdentification', requestOptions)
             .then(response => response.json())
             .then((data) => {
-                console.log(data);
                 setRequestData(prev => {
                     return {
                         ...prev,
@@ -68,7 +65,6 @@ function RequestCreate(props) {
 
     const changeInputField = event => {
         event.persist()
-        console.log(12);
         setRequestData(prev => {
             return {
                 ...prev,
@@ -95,42 +91,27 @@ function RequestCreate(props) {
         };
     }
 
-    const submitForm = event => {
-        event.preventDefault();
-        const requestOptions = {
-            method: 'POST',
-            mode: 'cors',
-            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-            body: JSON.stringify(
-                {
-                    'data': requestData
-                }
-            )
-        };
-        fetch('/RequestCreateApi', requestOptions)
-            .then(response => response.json())
-            .then((response) => {
-                if (response.status == true) {
-                    window.location.href = '/admin/request';
-                } else {
-                    var errorArray = basicErrorArray();
-                    var textErrorArray = basicTextErrorArray();
-                    var fields = response.error;
-                    for (var field in fields) {
-                        errorArray[field] = 'is-invalid';
-                        textErrorArray[field] = response.error[field];
-                    }
-                    setError(errorArray);
-                    setErrorText(textErrorArray);
-                }
-            });
-    }
+    let data = {
+        'data' : requestData,
+    };
+
+    let linkAfterCreation = '/admin/request'
+    let apiRequestLink = '/RequestCreateApi';
 
     return (
         <>
             <div className="row justify-content-center">
                 <div className="col-sm-12 bg-white p-3 col-md-10">
-                    <form name="requestCreate" id="requestCreate" onSubmit={submitForm}>
+                    <form name="requestCreate" id="requestCreate" onSubmit={(event) => {submitForm(
+                        event,
+                        data,
+                        apiRequestLink,
+                        linkAfterCreation,
+                        basicErrorArray,
+                        basicTextErrorArray,
+                        setError,
+                        setErrorText
+                        )}}>
                         <h3 className="text-center mb-5">Форма создания запроса</h3>
                         <div className="row justify-content-center">
                             <div className="col-md-2">
