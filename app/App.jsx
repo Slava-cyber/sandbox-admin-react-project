@@ -8,7 +8,7 @@ function App() {
         return (
             <Routes>
                 <Route path="/admin/event/create" element={<CreationPage entity={'event'} title={"Создать ивент"}/>}/>
-                <Route path={"/admin/event/:id"} element={<CreationPage entity={'event'} title={"Реадктировать ивент"}/>}/>
+                <Route path={"/admin/event/:id"} element={<CreationPage entity={'event'} title={"Редактировать ивент"}/>}/>
                 <Route path="/admin/request/create" element={<CreationPage entity={'request'} title={"Создать запрос"}/>}/>
                 <Route path="/admin/user/create" element={<CreationPage entity={'user'} title={"Создать пользователя"}/>}/>
                 <Route path="/admin" element={<PageWithDataTable entity={'user'} title={"Список пользователей"}/>}/>
