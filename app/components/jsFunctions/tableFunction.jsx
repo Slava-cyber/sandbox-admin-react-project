@@ -1,16 +1,15 @@
 import React, {useMemo, useState} from 'react';
 
-import Select from "./htmlBlocks/select.jsx";
-import DeleteModalWindow from "./htmlBlocks/modalWindow.jsx";
+import Select from "../htmlBlocks/select.jsx";
+import DeleteModalWindow from "../htmlBlocks/modalWindow.jsx";
+import FetchRequest from "./fetchRequest.jsx";
 
 export const getData = (entity) => {
     return new Promise(function(resolve, reject) {
-        fetch('/allDataApiRequest', {
-            method: 'POST',
-            mode: 'cors',
-            body: JSON.stringify({'entity': entity}),
-            headers: {'Content-Type': 'application/json;charset=utf-8'}
-        })
+        FetchRequest(
+            JSON.stringify({'entity': entity}),
+            "POST",
+            '/allDataApiRequest')
             .then(response => response.json())
             .then((data) => {
                 if (data.status == false) {
@@ -23,18 +22,14 @@ export const getData = (entity) => {
 }
 
 export const deleteObject = (id, entity, setData) => {
-    console.log(id);
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify (
+    FetchRequest(
+        JSON.stringify (
             {
                 'entityType': entity,
                 'id': id
-            }
-        )
-    };
-    fetch('/userApiDelete', requestOptions)
+            }),
+        "POST",
+        '/userApiDelete')
         .then(response => response.json())
         .then((data) => {
             if (data['status']) {
@@ -49,17 +44,14 @@ export const deleteObject = (id, entity, setData) => {
 }
 
 export const changeRole = (event, id) => {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify (
+    FetchRequest(
+        JSON.stringify (
             {
                 'role': event.target.value,
                 'id': id
-            }
-        )
-    };
-    fetch('/userChangeRole', requestOptions)
+            }),
+        "POST",
+        '/userChangeRole')
         .then(response => response.json())
         .then((data) => {
         });

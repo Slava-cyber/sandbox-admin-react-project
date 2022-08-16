@@ -5,7 +5,6 @@ import RequestCreate from "../components/requestCreate.jsx";
 import UserCreate from "../components/userCreate.jsx";
 
 function CreationPage(props) {
-
     document.title = props.title;
 
     var entityOfCreation =

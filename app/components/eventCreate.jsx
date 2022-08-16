@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
+import { ThemeProvider } from "@material-ui/core/styles";
+import createdTheme from './customStyleForMuiComponents/createdTheme.jsx';
+import { Box, Grid } from '@mui/material';
+
+import FetchRequest from "./jsFunctions/fetchRequest.jsx";
+import {submitForm} from "./jsFunctions/creationFunction.jsx";
+
 import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
-import Select from "./htmlBlocks/select.jsx";
 import InputMui from "./htmlBlocks/inputMui.jsx";
 import SelectMui from "./htmlBlocks/selectMui.jsx"
 
-import {submitForm} from "./creationFunction.jsx";
-import { ThemeProvider } from "@material-ui/core/styles";
-import createdTheme from './customStyleForMuiComponents/createdTheme.jsx';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-
 function EventCreate(props) {
-
     const params = useParams();
 
     const [id, setId] = useState(0);
@@ -34,17 +33,11 @@ function EventCreate(props) {
         } else {
             params.id = 0;
         }
-        const requestOptions = {
-            method: 'POST',
-            mode: 'cors',
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify (
-                {
-                    'id': params.id
-                }
-            )
-        };
-        fetch('/EventGetDataById', requestOptions)
+        FetchRequest(JSON.stringify({
+            'id': params.id
+            }),
+            "POST",
+            '/EventGetDataById')
             .then(response => response.json())
             .then((response) => {
                 if (response.status == true) {

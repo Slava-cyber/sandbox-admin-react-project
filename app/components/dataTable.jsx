@@ -1,11 +1,11 @@
 import React, { useEffect , useState} from 'react';
 import Table from './table.jsx';
-import {getData} from './tableFunction.jsx';
-import {deleteObject} from './tableFunction.jsx';
-import {ColumnsUserTable} from './tableFunction.jsx';
-import {ColumnsEventTable} from './tableFunction.jsx';
-import {ColumnsRequestTable} from './tableFunction.jsx';
-
+import {
+    getData,
+    deleteObject,
+    ColumnsUserTable,
+    ColumnsEventTable,
+    ColumnsRequestTable} from './jsFunctions/tableFunction.jsx';
 
 function DataTable(props) {
     const [data, setData] = useState([]);
@@ -17,18 +17,20 @@ function DataTable(props) {
             );
     }, []);
 
-    let columns = [];
-    let title = "";
-    if (props.entity === 'user') {
-        columns = ColumnsUserTable(props, setData, deleteObject);
-        title = "Таблица пользователей";
-    } else if (props.entity === 'event') {
-        columns = ColumnsEventTable(props, setData, deleteObject);
-        title = "Таблица ивентов";
-    } else if (props.entity === 'request') {
-        columns = ColumnsRequestTable(props, setData, deleteObject);
-        title = "Таблица запросов";
+    const titleArray = {
+        'user': "Таблица пользователей",
+        'event': "Таблица ивентов",
+        'request': "Таблица запросов"
+    };
+
+    const columnDataFunction = {
+        'user': ColumnsUserTable,
+        'event': ColumnsEventTable,
+        'request': ColumnsRequestTable
     }
+
+    let columns = columnDataFunction[props.entity] ? columnDataFunction[props.entity](props, setData, deleteObject) : [];
+    let title = titleArray[props.entity] ? titleArray[props.entity] : "";
 
     return (
         <>

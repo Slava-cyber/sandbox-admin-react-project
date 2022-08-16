@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
-import Input from "./htmlBlocks/input.jsx";
-import Select from "./htmlBlocks/select.jsx";
-import {submitForm} from "./creationFunction.jsx";
 import { ThemeProvider } from "@material-ui/core/styles";
 import createdTheme from "./customStyleForMuiComponents/createdTheme.jsx";
 
-function RequestCreate(props) {
+import FetchRequest from "./jsFunctions/fetchRequest.jsx";
+import {submitForm} from "./jsFunctions/creationFunction.jsx";
 
+import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
+import Input from "./htmlBlocks/input.jsx";
+import Select from "./htmlBlocks/select.jsx";
+
+function RequestCreate(props) {
     const [requestData, setRequestData] = useState(() => {
         return {
             event: "",
@@ -44,16 +46,11 @@ function RequestCreate(props) {
                 [event.target.name]: event.target.value,
             }
         })
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-            body: JSON.stringify(
-                {
-                    'eventId': event.target.value,
-                }
-            )
-        };
-        fetch('/eventAuthorIdentification', requestOptions)
+        FetchRequest(JSON.stringify({
+                'eventId': event.target.value,
+            }),
+            "POST",
+            '/eventAuthorIdentification')
             .then(response => response.json())
             .then((data) => {
                 setRequestData(prev => {

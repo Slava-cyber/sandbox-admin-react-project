@@ -2,7 +2,6 @@ import React from 'react';
 import { useTable, useSortBy, useFilters } from 'react-table';
 import { useGlobalFilter, usePagination} from 'react-table'
 
-
 function GlobalFilter({
                           preGlobalFilteredRows,
                           globalFilter,

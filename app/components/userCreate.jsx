@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
+
+import {submitForm} from "./jsFunctions/creationFunction.jsx";
+import FetchRequest from "./jsFunctions/fetchRequest.jsx";
+
 import Separator from "./htmlBlocks/separator.jsx";
 import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
 import Input from "./htmlBlocks/input.jsx";
 import Select from "./htmlBlocks/select.jsx";
 import Textarea from "./htmlBlocks/textarea.jsx";
-import {submitForm} from "./creationFunction.jsx";
 
 function UserCreate(props) {
-
     const [image, setImage] = useState("/images/system/avatar_null.jpg");
     const [userData, setUserData] = useState(() => {
         return {
@@ -75,12 +77,11 @@ function UserCreate(props) {
         var formData = new FormData();
         formData.append("all", json_arr);
         formData.append("userfile", image);
-        const requestOptions = {
-            method: 'POST',
-            mode: 'cors',
-            body: formData
-        };
-        fetch('/validation', requestOptions)
+        FetchRequest({
+                formData
+            },
+            "POST",
+            '/validation')
             .then(response => response.json())
             .then((response) => {
                 if (response.status == true) {

@@ -3,7 +3,6 @@ import Navbar from "../components/navbar.jsx";
 import DataTable from "../components/dataTable.jsx";
 
 function PageWithDataTable(props) {
-
     document.title = props.title;
 
     var NavbarActiveTabs =

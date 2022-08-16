@@ -1,3 +1,5 @@
+import FetchRequest from "./fetchRequest.jsx";
+
 export const submitForm = (
         event,
         data,
@@ -9,13 +11,10 @@ export const submitForm = (
         setErrorText
     ) => {
     event.preventDefault();
-    const requestOptions = {
-        method: 'POST',
-        mode: 'cors',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    };
-    fetch(apiRequestLink, requestOptions)
+    FetchRequest(
+        JSON.stringify(data),
+        "POST",
+        apiRequestLink)
         .then(response => response.json())
         .then((response) => {
             if (response.status == true) {
