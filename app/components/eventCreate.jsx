@@ -2,10 +2,14 @@ import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
 import Select from "./htmlBlocks/select.jsx";
-import Textarea from "./htmlBlocks/textarea.jsx";
-import Input from "./htmlBlocks/input.jsx";
+import InputMui from "./htmlBlocks/inputMui.jsx";
+import SelectMui from "./htmlBlocks/selectMui.jsx"
 
 import {submitForm} from "./creationFunction.jsx";
+import { ThemeProvider } from "@material-ui/core/styles";
+import createdTheme from './customStyleForMuiComponents/createdTheme.jsx';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 function EventCreate(props) {
 
@@ -83,7 +87,7 @@ function EventCreate(props) {
     })
 
     const changeInputField = event => {
-        event.persist()
+        //event.persist()
         setEventData(prev => {
             return {
                 ...prev,
@@ -124,62 +128,70 @@ function EventCreate(props) {
 
     return (
         <>
-            <div className="row justify-content-center">
-                <div className="col-sm-12 bg-white p-3 col-md-10">
-                    <form method="POST" action="/login" name="eventAdd" id="eventAdd"
-                          onSubmit={(event) => {submitForm(
-                              event,
-                              data,
-                              apiRequestLink,
-                              linkAfterCreation,
-                              basicErrorArray,
-                              basicTextErrorArray,
-                              setError,
-                              setErrorText
-                            )}}>
-                        <h3 className="text-center mb-5">Форма создания ивента</h3>
-                        <div className="row">
-                            <Input type={'hidden'} placeholder={''} class = {''}
-                                   id={"id"} value = {id}
-                                   errorText = {''} change={(event) => {changeInputField(event)}} />
-                        </div>
-                        <div className="row">
-                            <Input type={'text'} placeholder={'Заголовок'} class = {error.title}
-                                   id={"title"} value = {eventData.title}
-                                   errorText = {errorText.title} change={(event) => {changeInputField(event)}} />
-                        </div>
-                        <div className="row">
-                            <div className="col-md-6">
-                                <Input type={'text'} placeholder={'Город'} class = {error.town}
-                                       id={"town"} value = {eventData.town}
-                                       errorText = {errorText.town} change={(event) => {changeInputField(event)}} />
-                            </div>
-                            <div className="col-md-6">
-                                <Input type={'datetime-local'} class = {error.datetime}
-                                       id={"datetime"} value = {eventData.datetime}
-                                       errorText = {errorText.datetime} change={(event) => {changeInputField(event)}} />
-                            </div>
-                            <div className="col-md-6">
-                                <Select options = {options} class={error.category} id={"category"} selected={eventData.category}
-                                        errorText = {errorText.category}
-                                        change = {(event) => {changeInputField(event)}}/>
-                            </div>
-                            <div className="col-md-6">
-                                <Input type={'text'} placeholder={'Автор поста'} class = {error.author}
-                                       id={"author"} value = {eventData.author}
-                                       errorText = {errorText.author} change={(event) => {changeInputField(event)}} />
+            <Box m={5} p={5}>
+                <Grid container justifyContent="center"
+                      alignItems="center">
+                    <Grid item md={10}>
+                            <form onSubmit={(event) => {submitForm(
+                                      event,
+                                      data,
+                                      apiRequestLink,
+                                      linkAfterCreation,
+                                      basicErrorArray,
+                                      basicTextErrorArray,
+                                      setError,
+                                      setErrorText
+                                  )}}>
+                                <Box display={"flex"} justifyContent={"center"} mb={3}>
+                                    <h3>Форма создания ивента</h3>
+                                </Box>
 
-                            </div>
-                            <div className=" col-md-12">
-                                <Textarea class={error.description} id={"description"} placeholder={"Описание ивента"}
-                                          value={eventData.description} errorText={errorText.description} rows={5}
-                                          change = {(event) => {changeInputField(event)}}/>
-                            </div>
-                        </div>
-                        <FormSubmitButton/>
-                    </form>
-                </div>
-            </div>
+                                <Grid container rowSpacing={2} columnSpacing={3}>
+                                    <Grid item xs={12} md={12}>
+                                        <input type={'hidden'} placeholder={''} className = {''}
+                                               id={"id"} value = {id}/>
+                                    </Grid>
+                                    <Grid item xs={12} md={12}>
+                                        <InputMui type={'text'} placeholder={'Заголовок'} class = {error.title}
+                                               id={"title"} value = {eventData.title}
+                                               errorText = {errorText.title} change={(event) => {changeInputField(event)}} />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <InputMui type={'text'} placeholder={'Город'} class = {error.town}
+                                               id={"town"} value = {eventData.town}
+                                               errorText = {errorText.town} change={(event) => {changeInputField(event)}} />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <InputMui type={'datetime-local'} class = {error.datetime}
+                                                     id={"datetime"} value = {eventData.datetime}
+                                                     errorText = {errorText.datetime} change={(event) => {changeInputField(event)}}/>
+
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <SelectMui options = {options} class={error.category} id={"category"} value={eventData.category}
+                                                errorText = {errorText.category}
+                                                change = {(event) => {changeInputField(event)}}/>
+                                    </Grid>
+                                    <Grid item xs={12} md={6}>
+                                        <InputMui type={'text'} placeholder={'Автор поста'} class = {error.author}
+                                               id={"author"} value = {eventData.author}
+                                               errorText = {errorText.author} change={(event) => {changeInputField(event)}} />
+                                    </Grid>
+                                    <Grid item xs={12} md={12}>
+                                        <InputMui type={'text'} class={error.description} id={"description"} placeholder={"Описание ивента"}
+                                                  value={eventData.description} errorText={errorText.description} rows={5}
+                                                  change = {(event) => {changeInputField(event)}}/>
+                                    </Grid>
+                                </Grid>
+                                <Box m={3}>
+                                    <ThemeProvider theme={createdTheme}>
+                                        <FormSubmitButton/>
+                                    </ThemeProvider>
+                                </Box>
+                            </form>
+                    </Grid>
+                </Grid>
+            </Box>
         </>
     );
 }

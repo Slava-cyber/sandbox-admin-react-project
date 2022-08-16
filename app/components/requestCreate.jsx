@@ -3,6 +3,8 @@ import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
 import Input from "./htmlBlocks/input.jsx";
 import Select from "./htmlBlocks/select.jsx";
 import {submitForm} from "./creationFunction.jsx";
+import { ThemeProvider } from "@material-ui/core/styles";
+import createdTheme from "./customStyleForMuiComponents/createdTheme.jsx";
 
 function RequestCreate(props) {
 
@@ -133,7 +135,11 @@ function RequestCreate(props) {
                                         options = {options} change={(event) => {changeInputField(event)}} />
                             </div>
                         </div>
-                        <FormSubmitButton/>
+                        <div>
+                            <ThemeProvider theme={createdTheme}>
+                                <FormSubmitButton/>
+                            </ThemeProvider>
+                        </div>
                     </form>
                 </div>
             </div>
