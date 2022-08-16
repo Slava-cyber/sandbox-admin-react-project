@@ -1,12 +1,14 @@
 import React from "react";
+import Button from '@material-ui/core/Button';
+import SendIcon from '@material-ui/icons/Send';
 
 function FormSubmitButton(props){
     return (
         <div className="row">
             <div className="col-md-12 text-center">
-                <button type="submit" className="btn btn-secondary my-2 w-25">
+                <Button variant={"contained"} endIcon={<SendIcon />} type="submit">
                     Создать
-                </button>
+                </Button>
             </div>
         </div>
     )
