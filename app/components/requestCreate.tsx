@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { ThemeProvider } from "@material-ui/core/styles";
-import createdTheme from "./customStyleForMuiComponents/createdTheme.jsx";
+import createdTheme from "./customStyleForMuiComponents/createdTheme";
 
-import FetchRequest from "./jsFunctions/fetchRequest.jsx";
-import {submitForm} from "./jsFunctions/creationFunction.jsx";
+import FetchRequest from "./jsFunctions/fetchRequest";
+import {submitForm} from "./jsFunctions/creationFunction";
 
-import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
-import Input from "./htmlBlocks/input.jsx";
-import Select from "./htmlBlocks/select.jsx";
+import FormSubmitButton from "./htmlBlocks/formSubmitButton";
+import Input from "./htmlBlocks/input";
+import Select from "./htmlBlocks/select";
 
 function RequestCreate(props) {
     const [requestData, setRequestData] = useState(() => {

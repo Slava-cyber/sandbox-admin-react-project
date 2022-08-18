@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
-import {submitForm} from "./jsFunctions/creationFunction.jsx";
-import FetchRequest from "./jsFunctions/fetchRequest.jsx";
+import {submitForm} from "./jsFunctions/creationFunction";
+import FetchRequest from "./jsFunctions/fetchRequest";
 
-import Separator from "./htmlBlocks/separator.jsx";
-import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
-import Input from "./htmlBlocks/input.jsx";
-import Select from "./htmlBlocks/select.jsx";
-import Textarea from "./htmlBlocks/textarea.jsx";
+import Separator from "./htmlBlocks/separator";
+import FormSubmitButton from "./htmlBlocks/formSubmitButton";
+import Input from "./htmlBlocks/input";
+import Select from "./htmlBlocks/select";
+import Textarea from "./htmlBlocks/textarea";
 
 function UserCreate(props) {
     const [image, setImage] = useState("/images/system/avatar_null.jpg");

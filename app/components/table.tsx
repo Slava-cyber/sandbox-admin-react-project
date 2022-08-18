@@ -2,6 +2,9 @@ import React from 'react';
 import { useTable, useSortBy, useFilters } from 'react-table';
 import { useGlobalFilter, usePagination} from 'react-table'
 
+
+
+
 function GlobalFilter({
                           preGlobalFilteredRows,
                           globalFilter,
@@ -46,7 +49,6 @@ function Table({ columns, data}) {
         getTableBodyProps,
         headerGroups,
         prepareRow,
-
         page,
         canPreviousPage,
         canNextPage,
@@ -56,7 +58,6 @@ function Table({ columns, data}) {
         nextPage,
         previousPage,
         setPageSize,
-
         state,
         setGlobalFilter,
         preGlobalFilteredRows,
@@ -81,7 +82,7 @@ function Table({ columns, data}) {
             <div className={"row"}>
         <div className={"col-md-12"}>
             <div className={"table-responsive"}>
-                <table className={"table table-hover align-middle text-center mt-3"} {...getTableProps()} border="1">
+                <table className={"table table-hover align-middle text-center mt-3"} {...getTableProps()} border={1}>
                     <thead>
                         {headerGroups.map((headerGroup) => (
                             <tr {...headerGroup.getHeaderGroupProps()}>

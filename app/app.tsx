@@ -1,8 +1,8 @@
 import {Route, Routes} from 'react-router-dom';
 import React from 'react';
-import PageDoesNotExist from "./page/pageDoesNotExist.jsx";
-import CreationPage from "./page/creationPage.jsx";
-import PageWithDataTable from "./page/pageWithDataTable.jsx";
+import PageDoesNotExist from "./page/pageDoesNotExist";
+import CreationPage from "./page/creationPage";
+import PageWithDataTable from "./page/pageWithDataTable";
 
 function App() {
         return (

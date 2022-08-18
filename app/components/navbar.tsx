@@ -1,5 +1,5 @@
 import React from 'react';
-import ListLinksHtml from "./htmlBlocks/listLinksHtml.jsx";
+import ListLinksHtml from "./htmlBlocks/listLinksHtml";
 
 function Navbar(props) {
     return (
@@ -21,7 +21,7 @@ function Navbar(props) {
                         <ListLinksHtml classLi={'nav-item text-center'} classA={"nav-link"} link={"/main"} title={"Главная"}/>
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                               role="button" data-bs-toggle="dropdown" arai-expanded="false">
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="/images/system/profile1.png" alt="" width="40" height="40"/>
                             </a>
                             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">

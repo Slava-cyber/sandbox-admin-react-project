@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../components/navbar.jsx";
-import DataTable from "../components/dataTable.jsx";
+import Navbar from "../components/navbar";
+import DataTable from "../components/dataTable";
 
 function PageWithDataTable(props) {
     document.title = props.title;

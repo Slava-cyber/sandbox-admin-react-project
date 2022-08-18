@@ -1,14 +1,14 @@
 import React, { useEffect , useState} from 'react';
-import Table from './table.jsx';
+import Table from './table';
 import {
     getData,
     deleteObject,
     ColumnsUserTable,
     ColumnsEventTable,
-    ColumnsRequestTable} from './jsFunctions/tableFunction.jsx';
+    ColumnsRequestTable} from './jsFunctions/tableFunction';
 
 function DataTable(props) {
-    const [data, setData] = useState([]);
+    const [data, setData] : any[] = useState([]);
 
     useEffect(() => {
         getData(props.entity)

@@ -1,8 +1,8 @@
 import React, {useMemo, useState} from 'react';
 
-import Select from "../htmlBlocks/select.jsx";
-import DeleteModalWindow from "../htmlBlocks/modalWindow.jsx";
-import FetchRequest from "./fetchRequest.jsx";
+import Select from "../htmlBlocks/select";
+import DeleteModalWindow from "../htmlBlocks/modalWindow";
+import FetchRequest from "./fetchRequest";
 
 export const getData = (entity) => {
     return new Promise(function(resolve, reject) {

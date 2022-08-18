@@ -1,18 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import { ThemeProvider } from "@material-ui/core/styles";
-import createdTheme from './customStyleForMuiComponents/createdTheme.jsx';
+import createdTheme from './customStyleForMuiComponents/createdTheme';
 import { Box, Grid } from '@mui/material';
 
-import FetchRequest from "./jsFunctions/fetchRequest.jsx";
-import {submitForm} from "./jsFunctions/creationFunction.jsx";
+import FetchRequest from "./jsFunctions/fetchRequest";
+import {submitForm} from "./jsFunctions/creationFunction";
 
-import FormSubmitButton from "./htmlBlocks/formSubmitButton.jsx";
-import InputMui from "./htmlBlocks/inputMui.jsx";
-import SelectMui from "./htmlBlocks/selectMui.jsx"
+import FormSubmitButton from "./htmlBlocks/formSubmitButton";
+import InputMui from "./htmlBlocks/inputMui";
+import SelectMui from "./htmlBlocks/selectMui"
+import {number} from "prop-types";
+
+interface event {
+    title: string,
+    description: string,
+    town: string,
+    datetime: Date,
+    category: string,
+    author: string,
+}
 
 function EventCreate(props) {
-    const params = useParams();
+    let paramsId = useParams().id;
 
     const [id, setId] = useState(0);
 
@@ -28,13 +38,13 @@ function EventCreate(props) {
     });
 
     useEffect(() => {
-        if (params.id != null) {
-            setId(params.id);
+        if (paramsId != null) {
+            setId(Number(paramsId));
         } else {
-            params.id = 0;
+            paramsId = '0';
         }
         FetchRequest(JSON.stringify({
-            'id': params.id
+            'id': paramsId
             }),
             "POST",
             '/EventGetDataById')

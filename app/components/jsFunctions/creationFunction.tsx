@@ -1,4 +1,4 @@
-import FetchRequest from "./fetchRequest.jsx";
+import FetchRequest from "./fetchRequest";
 
 export const submitForm = (
         event,

@@ -2,12 +2,13 @@ const path = require("path");
 
 module.exports = {
     mode: "development",
-    entry: "./app/index.jsx", // входная точка - исходный файл
-    output:{
+    entry: "./app/index.tsx", // входная точка - исходный файл
+    output: {
         path: path.resolve(__dirname, "../public/admin/public"),     // путь к каталогу выходных файлов - папка public
         publicPath: "/public/",
         filename: "bundle.js"       // название создаваемого файла
     },
+    devtool: 'inline-source-map',
     devServer: {
         historyApiFallback: true,
         static: {
@@ -16,16 +17,25 @@ module.exports = {
         port: 80,
         open: true
     },
-    module:{
-        rules:[   //загрузчик для jsx
+    resolve: {
+        extensions: [".ts", ".tsx", ".js", ".json"]
+    },
+    module: {
+        rules: [ //загрузчик для jsx
+            {
+                test: /\.tsx?$/,
+                use:  'ts-loader',
+                exclude: /(node_modules)/,
+            },
             {
                 test: /\.jsx?$/, // определяем тип файлов
                 exclude: /(node_modules)/,  // исключаем из обработки папку node_modules
                 loader: "babel-loader",   // определяем загрузчик
-                options:{
-                    presets:[ "@babel/preset-react"]    // используемые плагины
+                options: {
+                    presets: ["@babel/preset-react"]    // используемые плагины
                 }
             }
         ]
-    }
+    },
+
 }
