@@ -2,10 +2,19 @@ import React from "react";
 import Navbar from "../components/navbar";
 import DataTable from "../components/dataTable";
 
-function PageWithDataTable(props) {
+
+interface page {
+    title: string,
+    entity: string
+}
+
+
+function PageWithDataTable(props: page) {
     document.title = props.title;
 
-    var NavbarActiveTabs =
+    let NavbarActiveTabs: {
+        [key: string]: string,
+    } =
         {
             'user': '',
             'event': '',

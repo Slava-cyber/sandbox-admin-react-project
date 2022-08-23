@@ -1,10 +1,17 @@
 import React from "react";
 
-function ListLinksHtml(props){
+interface links {
+    classLi?: string,
+    link: string,
+    classA?: string,
+    active?: string,
+    title: string
+}
+
+function ListLinksHtml(props: links){
     return (
         <li className={props.classLi}>
-            <a href={props.link} className={props.classA + " " + props.active}
-               aria-current="main">{props.title}
+            <a href={props.link} className={props.classA + " " + props.active}>{props.title}
             </a>
         </li>
     )

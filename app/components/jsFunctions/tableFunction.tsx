@@ -3,9 +3,14 @@ import React, {useMemo, useState} from 'react';
 import Select from "../htmlBlocks/select";
 import DeleteModalWindow from "../htmlBlocks/modalWindow";
 import FetchRequest from "./fetchRequest";
+import {CellProps} from 'react-table';
 
-export const getData = (entity) => {
-    return new Promise(function(resolve, reject) {
+interface CustomRow {
+    id?: number;
+}
+
+export const getData = (entity : string): any => {
+    return new Promise(function(resolve, reject) : any {
         FetchRequest(
             JSON.stringify({'entity': entity}),
             "POST",
@@ -21,7 +26,10 @@ export const getData = (entity) => {
     })
 }
 
-export const deleteObject = (id, entity, setData) => {
+export const deleteObject = (
+    id : number,
+    entity : string,
+    setData: (value: (((prevState: any[]) => any[]) | any[])) => void): void => {
     FetchRequest(
         JSON.stringify (
             {
@@ -35,19 +43,19 @@ export const deleteObject = (id, entity, setData) => {
             if (data['status']) {
                 getData(entity)
                     .then(
-                        response => {
-                            setData(response)
+                        (response : any) => {
+                            setData(response as any[])
                         }
                     );
             }
         });
 }
 
-export const changeRole = (event, id) => {
+export const changeRole = (event: React.SyntheticEvent, id: number) => {
     FetchRequest(
         JSON.stringify (
             {
-                'role': event.target.value,
+                'role': (event.target as HTMLInputElement).value,
                 'id': id
             }),
         "POST",
@@ -57,7 +65,13 @@ export const changeRole = (event, id) => {
         });
 }
 
-export const ColumnsUserTable = (props, setData, deleteObject) => {
+export const ColumnsUserTable = (
+    props: {entity: string},
+    setData: (value: (((prevState: any[]) => any[]) | any[])) => void,
+    deleteObject: (
+        id: number,
+        entity: string,
+        setData: (value: (((prevState: any[]) => any[]) | any[])) => void) => void): any[] => {
     const options = ["administrator", "user", "advanced user"];
 
     const columns = React.useMemo(
@@ -73,23 +87,23 @@ export const ColumnsUserTable = (props, setData, deleteObject) => {
             {
                 Header: "Логин",
                 accessor: "login",
-                Cell: e =><a href={'/profile/' + e.value}> {e.value} </a>
+                Cell: (props: CellProps<CustomRow, string>) => <a href={'/profile/' + props.cell.value}> {props.cell.value} </a>
             },
             {
                 Header: "Email",
                 accessor: "email",
-                Cell: ({ cell: { value } }) => value || "-",
+                Cell: (props: CellProps<CustomRow, string>) => props.cell.value || "-",
             },
             {
                 Header: "Время Регистрации",
                 accessor: "dateCreated",
-                Cell: ({ cell: { value } }) => value || "-",
+                Cell: (props: CellProps<CustomRow, Date>) => props.cell.value || "-",
             },
             {
                 Header: "Аватар",
                 accessor: "avatar",
-                Cell: e => <img className="rounded-circle image-admin"
-                                src={e.value ? e.value : "/images/system/avatar_null.jpg"}/>
+                Cell: (props: CellProps<CustomRow, string>) => <img className="rounded-circle image-admin"
+                                src={props.cell.value ? props.cell.value : "/images/system/avatar_null.jpg"}/>
             },
             {
                 Header: "Дата рождения",
@@ -98,32 +112,32 @@ export const ColumnsUserTable = (props, setData, deleteObject) => {
             {
                 Header: "Город",
                 accessor: "town",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: (props: CellProps<CustomRow, string>) => props.cell.value || "-",
             },
             {
                 Header: "Рейтинг",
                 accessor: "rating",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: (props: CellProps<CustomRow, number>) => props.cell.value || "-",
             },
             {
                 Header: "Количество отзывов",
                 accessor: "numberOfReviews",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: (props: CellProps<CustomRow, number>) => props.cell.value || "-",
             },
             {
                 Header: "Роль",
                 accessor: "role",
                 minWidth: 200,
-                Cell: e => <Select options = {options} id={"role"} selected={e.value}
-                                 change = {(event) => {changeRole(event, e.row.original.id)}}/>
+                Cell: (props: CellProps<CustomRow, string>) => <Select options = {options} id={"role"} selected={props.cell.value}
+                                 change = {(event: React.SyntheticEvent) => {changeRole(event, props.row.original.id)}}/>
             },
             {
                 Header: "",
                 id:'delete',
                 accessor: "id",
-                Cell: e => <DeleteModalWindow value={e.value} sourceTitle={"Удалить"}
+                Cell: (cellProps: CellProps<CustomRow, string>) => <DeleteModalWindow value={cellProps.cell.value} sourceTitle={"Удалить"}
                                               body={"Вы уверены, что хотите удалить запись в таблице?"}
-                                              delete = {(event) => {deleteObject(e.value, props.entity, setData)}}/>
+                                              delete = {() => {deleteObject(cellProps.cell.value, props.entity, setData)}}/>
             },
         ],
         []
@@ -131,13 +145,19 @@ export const ColumnsUserTable = (props, setData, deleteObject) => {
     return columns;
 }
 
-export const ColumnsEventTable = (props, setData, deleteObject) => {
+export const ColumnsEventTable = (
+    props: {entity: string},
+    setData: (value: (((prevState: any[]) => any[]) | any[])) => void,
+    deleteObject: (
+        id: number,
+        entity: string,
+        setData: (value: (((prevState: any[]) => any[]) | any[])) => void) => void): any[] => {
         const columns = React.useMemo(
         () => [
             {
                 Header: "id",
                 accessor: "id",
-                Cell: e =><a href={'/admin/event/' + e.value}> {e.value} </a>
+                Cell: (props: CellProps<CustomRow, number>) => <a href={'/admin/event/' + props.cell.value}> {props.cell.value} </a>
             },
             {
                 Header: "Заголовок",
@@ -150,7 +170,7 @@ export const ColumnsEventTable = (props, setData, deleteObject) => {
             {
                 Header: "Автор",
                 accessor: "author",
-                Cell: e =><a href={'/profile/' + e.value}> {e.value} </a>
+                Cell: (props: CellProps<CustomRow, string>) =><a href={'/profile/' + props.cell.value}> {props.cell.value} </a>
             },
             {
                 Header: "Время начала",
@@ -159,25 +179,25 @@ export const ColumnsEventTable = (props, setData, deleteObject) => {
             {
                 Header: "Город",
                 accessor: "town",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: (props: CellProps<CustomRow, string>) => props.cell.value || "-"
             },
             {
                 Header: "Время создания",
                 accessor: "dateCreated",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: (props: CellProps<CustomRow, string>) => props.cell.value || "-"
             },
             {
                 Header: "Описание",
                 accessor: "description",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: (props: CellProps<CustomRow, string>) => props.cell.value || "-"
             },
             {
                 Header: "",
                 id:'delete',
                 accessor: "id",
-                Cell: e => <DeleteModalWindow value={e.value} sourceTitle={"Удалить"}
+                Cell: (cellProps: CellProps<CustomRow, number>) => <DeleteModalWindow value={cellProps.cell.value} sourceTitle={"Удалить"}
                                               body={"Вы уверены, что хотите удалить запись в таблице?"}
-                                              delete = {(event) => {deleteObject(e.value, props.entity, setData)}}/>
+                                              delete = {() => {deleteObject(cellProps.cell.value, props.entity, setData)}}/>
             },
         ],
         []
@@ -185,7 +205,13 @@ export const ColumnsEventTable = (props, setData, deleteObject) => {
     return columns;
 }
 
-export const ColumnsRequestTable = (props, setData, deleteObject) => {
+export const ColumnsRequestTable = (
+    props: {entity: string},
+    setData: (value: (((prevState: any[]) => any[]) | any[])) => void,
+    deleteObject: (
+        id: number,
+        entity: string,
+        setData: (value: (((prevState: any[]) => any[]) | any[])) => void) => void): any[] => {
     const columns = React.useMemo(
         () => [
             {
@@ -195,30 +221,30 @@ export const ColumnsRequestTable = (props, setData, deleteObject) => {
             {
                 Header: "Подписчик",
                 accessor: "user",
-                Cell: e =><a href={'/profile/' + e.value}> {e.value} </a>
+                Cell: (props: CellProps<CustomRow, string>) => <a href={'/profile/' + props.cell.value}> {props.cell.value} </a>
             },
             {
                 Header: "Автор ивента",
                 accessor: "author",
-                Cell: e =><a href={'/profile/' + e.value}> {e.value} </a>
+                Cell: (props: CellProps<CustomRow, string>) =><a href={'/profile/' + props.cell.value}> {props.cell.value} </a>
             },
             {
                 Header: "Время создания",
                 accessor: "dateCreated",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: (props: CellProps<CustomRow, string>) => props.cell.value || "-"
             },
             {
                 Header: "Статус",
                 accessor: "status",
-                Cell: ({ cell: { value } }) => value || "-"
+                Cell: (props: CellProps<CustomRow, string>) => props.cell.value || "-"
             },
             {
                 Header: "",
                 id:'delete',
                 accessor: "id",
-                Cell: e => <DeleteModalWindow value={e.value} sourceTitle={"Удалить"}
+                Cell: (cellProps: CellProps<CustomRow, number>) => <DeleteModalWindow value={cellProps.cell.value} sourceTitle={"Удалить"}
                                               body={"Вы уверены, что хотите удалить запись в таблице?"}
-                                              delete = {(event) => {deleteObject(e.value, props.entity, setData)}}/>
+                                              delete = {() => {deleteObject(cellProps.cell.value, props.entity, setData)}}/>
             },
         ],
         []

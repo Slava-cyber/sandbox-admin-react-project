@@ -1,6 +1,16 @@
 import React from "react";
 
-function Input(props) {
+interface input {
+    type: string,
+    class?: string,
+    id: string,
+    placeholder?: string,
+    value?: string | number,
+    change: any,
+    errorText?: string
+}
+
+function Input(props : input) {
     return (
         <div className="form-group py-2">
             <input type={props.type} className={"form-control " + props.class} id={props.id}

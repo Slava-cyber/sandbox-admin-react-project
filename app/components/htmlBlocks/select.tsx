@@ -1,12 +1,23 @@
 import React from "react";
 
-function Select(props) {
-    let selectedArray = {};
+interface select {
+    options: string[],
+    selected: string,
+    class?: string,
+    id: string,
+    errorText?: string,
+    change: any
+}
+
+function Select(props: select) {
+    let selectedArray: {
+        [key: string]: boolean
+    } = {};
     for (let option of props.options) {
         if (props.selected === option) {
-            selectedArray[option] = 'selected';
+            selectedArray[option] = true;
         } else {
-            selectedArray[option] = '';
+            selectedArray[option] = false;
         }
     }
 

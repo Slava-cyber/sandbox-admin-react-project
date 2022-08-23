@@ -2,7 +2,18 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 
-function InputMui(props) {
+interface inputMui {
+    type: string,
+    class?: string,
+    id: string,
+    placeholder?: string,
+    value?: string | number,
+    change: any,
+    errorText?: string,
+    rows?: number
+}
+
+function InputMui(props: inputMui) {
     let focusedStatus = (props.class !== '') && true;
     let multiline =  (props.rows != null) && true;
     return (

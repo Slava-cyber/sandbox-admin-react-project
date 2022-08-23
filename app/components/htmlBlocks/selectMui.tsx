@@ -2,7 +2,16 @@ import React from "react";
 import {Select, MenuItem, FormControl, FormHelperText, InputLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 
-function SelectMui(props) {
+interface selectMui {
+    options: string[],
+    class?: string,
+    id: string,
+    errorText?: string,
+    value: string,
+    change: any
+}
+
+function SelectMui(props: selectMui) {
     let errorStatus = (props.class === 'is-invalid') && true;
     let focusedStatus = (props.class !== '') && true;
 

@@ -4,24 +4,34 @@ import EventCreate from "../components/eventCreate";
 import RequestCreate from "../components/requestCreate";
 import UserCreate from "../components/userCreate";
 
-function CreationPage(props) {
+interface page {
+    title: string,
+    entity: string
+}
+
+
+function CreationPage(props : page) {
     document.title = props.title;
 
-    var entityOfCreation =
+    let entityOfCreation: {
+        [key:string]: any
+    } =
         {
             'user': UserCreate,
             'event': EventCreate,
             'request': RequestCreate,
         }
 
-    var navbarActiveTabs =
+    let navbarActiveTabs: {
+        [key:string]: string
+    }=
         {
             'user': '',
             'event': '',
             'request': '',
         };
 
-    var Component = entityOfCreation[props.entity];
+    let Component = entityOfCreation[props.entity];
 
     return (
         <>

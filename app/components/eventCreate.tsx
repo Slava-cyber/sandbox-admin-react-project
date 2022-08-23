@@ -10,28 +10,20 @@ import {submitForm} from "./jsFunctions/creationFunction";
 import FormSubmitButton from "./htmlBlocks/formSubmitButton";
 import InputMui from "./htmlBlocks/inputMui";
 import SelectMui from "./htmlBlocks/selectMui"
-import {number} from "prop-types";
 
-interface event {
-    title: string,
-    description: string,
-    town: string,
-    datetime: Date,
-    category: string,
-    author: string,
-}
+import {eventEntityData, eventEntityClassError, eventEntityTextError} from "../ts-interfaces";
 
-function EventCreate(props) {
+function EventCreate() {
     let paramsId = useParams().id;
 
     const [id, setId] = useState(0);
 
-    const [eventData, setEventData] = useState(() => {
+    const [eventData, setEventData] = useState<eventEntityData>(() => {
         return {
             title: "",
             description: "",
             town: "Москва",
-            datetime: "",
+            datetime: null,
             category: "Активный отдых",
             author: "",
         }
@@ -68,7 +60,7 @@ function EventCreate(props) {
 
     const options = ["Активный отдых", "Спорт", "Квесты/настольные игры", "Ночная жизнь", "Охота/рыбалка", "Туризм", "Другое"];
 
-    const [error, setError] = useState(() => {
+    const [error, setError] = useState<eventEntityClassError>(() => {
         return {
             title: '',
             author: '',
@@ -78,7 +70,7 @@ function EventCreate(props) {
             category: '',
         }
     })
-    const [errorText, setErrorText] = useState(() => {
+    const [errorText, setErrorText] = useState<eventEntityTextError>(() => {
         return {
             title: '',
             author: 'Логин автора поста',
@@ -89,17 +81,17 @@ function EventCreate(props) {
         }
     })
 
-    const changeInputField = event => {
+    const changeInputField = (event: React.SyntheticEvent) => {
         //event.persist()
         setEventData(prev => {
             return {
                 ...prev,
-                [event.target.name]: event.target.value,
+                [(event.target as HTMLInputElement).name]: (event.target as HTMLInputElement).value,
             }
         })
     }
 
-    const basicErrorArray = () => {
+    const basicErrorArray = (): eventEntityClassError => {
         return {
             title: 'is-valid',
             author: 'is-valid',
@@ -110,7 +102,7 @@ function EventCreate(props) {
         };
     }
 
-    const basicTextErrorArray = () => {
+    const basicTextErrorArray = (): eventEntityTextError => {
         return {
             title: '',
             author: '',
@@ -157,33 +149,33 @@ function EventCreate(props) {
                                     <Grid item xs={12} md={12}>
                                         <InputMui type={'text'} placeholder={'Заголовок'} class = {error.title}
                                                id={"title"} value = {eventData.title}
-                                               errorText = {errorText.title} change={(event) => {changeInputField(event)}} />
+                                               errorText = {errorText.title} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                                     </Grid>
                                     <Grid item xs={12} md={6}>
                                         <InputMui type={'text'} placeholder={'Город'} class = {error.town}
                                                id={"town"} value = {eventData.town}
-                                               errorText = {errorText.town} change={(event) => {changeInputField(event)}} />
+                                               errorText = {errorText.town} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                                     </Grid>
                                     <Grid item xs={12} md={6}>
                                         <InputMui type={'datetime-local'} class = {error.datetime}
                                                      id={"datetime"} value = {eventData.datetime}
-                                                     errorText = {errorText.datetime} change={(event) => {changeInputField(event)}}/>
+                                                     errorText = {errorText.datetime} change={(event: React.SyntheticEvent) => {changeInputField(event)}}/>
 
                                     </Grid>
                                     <Grid item xs={12} md={6}>
                                         <SelectMui options = {options} class={error.category} id={"category"} value={eventData.category}
                                                 errorText = {errorText.category}
-                                                change = {(event) => {changeInputField(event)}}/>
+                                                change = {(event: React.SyntheticEvent) => {changeInputField(event)}}/>
                                     </Grid>
                                     <Grid item xs={12} md={6}>
                                         <InputMui type={'text'} placeholder={'Автор поста'} class = {error.author}
                                                id={"author"} value = {eventData.author}
-                                               errorText = {errorText.author} change={(event) => {changeInputField(event)}} />
+                                               errorText = {errorText.author} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                                     </Grid>
                                     <Grid item xs={12} md={12}>
                                         <InputMui type={'text'} class={error.description} id={"description"} placeholder={"Описание ивента"}
                                                   value={eventData.description} errorText={errorText.description} rows={5}
-                                                  change = {(event) => {changeInputField(event)}}/>
+                                                  change = {(event: React.SyntheticEvent) => {changeInputField(event)}}/>
                                     </Grid>
                                 </Grid>
                                 <Box m={3}>

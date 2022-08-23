@@ -1,7 +1,13 @@
 import React from 'react';
 import ListLinksHtml from "./htmlBlocks/listLinksHtml";
 
-function Navbar(props) {
+interface navbar {
+    navbarActiveTabs: {
+        [key: string]: string
+    }
+}
+
+function Navbar(props: navbar) {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
             <a href="" className="navbar-brand p-2">Sandbox</a>

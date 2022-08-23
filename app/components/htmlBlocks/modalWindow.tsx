@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from "react";
 
-function DeleteModalWindow(props) {
+interface modalWindow {
+    value?: string,
+    sourceTitle: string,
+    body: string,
+    delete: any
+}
+
+function DeleteModalWindow(props: modalWindow) {
     return (
         <>
             <div className="row py-2">

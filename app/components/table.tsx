@@ -1,19 +1,23 @@
-import React from 'react';
-import { useTable, useSortBy, useFilters } from 'react-table';
+import React, {Dispatch, SetStateAction} from 'react';
+import {useTable, useSortBy, useFilters, Row, FilterValue} from 'react-table';
 import { useGlobalFilter, usePagination} from 'react-table'
 
+interface globalFilterProps {
+    preGlobalFilteredRows : Row[],
+    globalFilter: any,
+    setGlobalFilter : (filterValue: FilterValue) => void
+}
 
-
-
-function GlobalFilter({
-                          preGlobalFilteredRows,
-                          globalFilter,
-                          setGlobalFilter,
-                      }) {
-    const count = preGlobalFilteredRows.length
-    const [value, setValue] = React.useState(globalFilter)
-    const onChange = value => {
-        setGlobalFilter(value || undefined)
+/*function GlobalFilter(
+                       {preGlobalFilteredRows} : {preGlobalFilteredRows :  Row[]},
+                       {globalFilter}: {globalFilter : any},
+                       {setGlobalFilter} : {setGlobalFilter: (filterValue: FilterValue) => void}
+                      )  { */
+  function GlobalFilter(props: globalFilterProps): JSX.Element {
+    const count = props.preGlobalFilteredRows.length
+    const [value, setValue]: FilterValue = React.useState(props.globalFilter)
+    const onChange = (value : FilterValue) => {
+        props.setGlobalFilter(value || undefined)
     };
 
     return (
@@ -43,7 +47,7 @@ function GlobalFilter({
     )
 }
 
-function Table({ columns, data}) {
+function Table({columns, data}: any) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -63,13 +67,13 @@ function Table({ columns, data}) {
         preGlobalFilteredRows,
     } = useTable (
         {
-        columns,
-        data,
+            columns,
+            data,
         },
         //useFilters,
         useGlobalFilter,
         useSortBy,
-        usePagination,
+        usePagination
     );
 
     return (
@@ -122,16 +126,16 @@ function Table({ columns, data}) {
                 <div className={"col-md-12 px-0"}>
                     <ul className="pagination mb-3 justify-content-center align-items-center">
 
-                        <li className={"page-link"} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                        <li className={"page-link"} onClick={() => gotoPage(0)}>
                             {'<<'}
                         </li>{' '}
-                        <li className={"page-link"} onClick={() => previousPage()} disabled={!canPreviousPage}>
+                        <li className={"page-link"} onClick={() => previousPage()}>
                             {'<'}
                         </li>{' '}
-                        <li className={"page-link"} onClick={() => nextPage()} disabled={!canNextPage}>
+                        <li className={"page-link"} onClick={() => nextPage()}>
                             {'>'}
                         </li>{' '}
-                        <li className={"page-link"} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                        <li className={"page-link"} onClick={() => gotoPage(pageCount - 1)}>
                             {'>>'}
                         </li>{' '}
                         <li className={"mx-3"}>

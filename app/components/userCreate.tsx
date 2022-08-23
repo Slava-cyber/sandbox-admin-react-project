@@ -9,14 +9,16 @@ import Input from "./htmlBlocks/input";
 import Select from "./htmlBlocks/select";
 import Textarea from "./htmlBlocks/textarea";
 
-function UserCreate(props) {
+import {userEntityTextError, userEntityData, userEntityClassError} from "../ts-interfaces";
+
+function UserCreate() {
     const [image, setImage] = useState("/images/system/avatar_null.jpg");
-    const [userData, setUserData] = useState(() => {
+    const [userData, setUserData] = useState<userEntityData>(() => {
         return {
             name: "",
             surname: "",
             town: "",
-            date_of_birth: "",
+            date_of_birth: null,
             login_sign_up: "",
             sex: "Мужской",
             password_sign_up: "",
@@ -31,7 +33,7 @@ function UserCreate(props) {
 
     const options = ["Мужской", "Женский"];
 
-    const [error, setError] = useState(() => {
+    const [error, setError] = useState<userEntityClassError>(() => {
         return {
             name: "",
             surname: "",
@@ -48,7 +50,7 @@ function UserCreate(props) {
             description: "",
         }
     })
-    const [errorText, setErrorText] = useState(() => {
+    const [errorText, setErrorText] = useState<userEntityTextError>(() => {
         return {
             name: "",
             surname: "",
@@ -67,9 +69,9 @@ function UserCreate(props) {
         }
     })
 
-    const changeImage = event => {
+    const changeImage = (event: React.SyntheticEvent) => {
         event.persist()
-        var image = event.target.files[0];
+        var image = (event.target as HTMLInputElement).files[0];
         let data = {
             'form' : 'image',
         };
@@ -110,17 +112,17 @@ function UserCreate(props) {
     }
 
 
-    const changeInputField = event => {
+    const changeInputField = (event: React.SyntheticEvent) => {
         event.persist()
         setUserData(prev => {
             return {
                 ...prev,
-                [event.target.name]: event.target.value,
+                [(event.target as HTMLInputElement).name]: (event.target as HTMLInputElement).value,
             }
         })
     }
 
-    const basicErrorArray = () => {
+    const basicErrorArray = (): userEntityClassError => {
         return {
             name: "is-valid",
             surname: "is-valid",
@@ -138,7 +140,7 @@ function UserCreate(props) {
         };
     }
 
-    const basicTextErrorArray = () => {
+    const basicTextErrorArray = (): userEntityTextError => {
         return {
             name: "",
             surname: "",
@@ -202,43 +204,43 @@ function UserCreate(props) {
                             <div className="col-md-6 col-sm-12">
                                 <Input type={'text'} placeholder={'Имя'} class = {error.name}
                                        id={"name"} value = {userData.name}
-                                       errorText = {errorText.name} change={(event) => {changeInputField(event)}} />
+                                       errorText = {errorText.name} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <Input type={'text'} placeholder={'Фамилия'} class = {error.surname}
                                        id={"surname"} value = {userData.surname}
-                                       errorText = {errorText.surname} change={(event) => {changeInputField(event)}} />
+                                       errorText = {errorText.surname} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <Input type={'date'} placeholder={'Выберите дату рождения'} class = {error.date_of_birth}
-                                       id={"date_of_birth"} value = {userData.date_of_birth}
-                                       errorText = {errorText.date_of_birth} change={(event) => {changeInputField(event)}} />
+                                       id={"date_of_birth"} value = {userData.date_of_birth as string}
+                                       errorText = {errorText.date_of_birth} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <Select options = {options} class={error.sex} id={"sex"}
                                         errorText = {errorText.sex} selected={""}
-                                        change = {(event) => {changeInputField(event)}}/>
+                                        change = {(event: React.SyntheticEvent) => {changeInputField(event)}}/>
 
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <Input type={'text'} placeholder={'Логин'} class = {error.login_sign_up}
                                        id={"login_sign_up"} value = {userData.login_sign_up}
-                                       errorText = {errorText.login_sign_up} change={(event) => {changeInputField(event)}} />
+                                       errorText = {errorText.login_sign_up} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <Input type={'text'} placeholder={'Город'} class = {error.town}
                                        id={"town"} value = {userData.town}
-                                       errorText = {errorText.town} change={(event) => {changeInputField(event)}} />
+                                       errorText = {errorText.town} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <Input type={'password'} placeholder={'Пароль'} class = {error.password_sign_up}
                                        id={"password_sign_up"} value = {userData.password_sign_up}
-                                       errorText = {errorText.password_sign_up} change={(event) => {changeInputField(event)}} />
+                                       errorText = {errorText.password_sign_up} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <Input type={'password'} placeholder={'Подтвердите пароль'} class = {error.password_confirm}
                                        id={"password_confirm"} value = {userData.password_confirm}
-                                       errorText = {errorText.password_confirm} change={(event) => {changeInputField(event)}} />
+                                       errorText = {errorText.password_confirm} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                             </div>
                         </div>
                         <Separator title={'Контакты'} />
@@ -246,12 +248,12 @@ function UserCreate(props) {
                             <div className="col-md-6 col-sm-12">
                                 <Input type={'text'} placeholder={'Введите номер телефона'} class = {error.phone_number}
                                        id={"phone_number"} value = {userData.phone_number}
-                                       errorText = {errorText.phone_number} change={(event) => {changeInputField(event)}} />
+                                       errorText = {errorText.phone_number} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                             </div>
                             <div className="col-md-6 col-sm-12">
                                 <Input type={'email'} placeholder={'Введите email'} class = {error.email}
                                        id={"email"} value = {userData.email}
-                                       errorText = {errorText.email} change={(event) => {changeInputField(event)}} />
+                                       errorText = {errorText.email} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
                             </div>
                         </div>
                         <Separator title={'Личная информация'} />
@@ -259,12 +261,12 @@ function UserCreate(props) {
                             <div className="col-md-12">
                                 <Textarea class={error.interest} id={"interest"} placeholder={"Интересы"}
                                           value={userData.interest} errorText={errorText.interest} rows={3}
-                                          change = {(event) => {changeInputField(event)}}/>
+                                          change = {(event: React.SyntheticEvent) => {changeInputField(event)}}/>
                             </div>
                             <div className="col-md-12">
                                 <Textarea class={error.description} id={"description"} placeholder={"О себе"}
                                           value={userData.description} errorText={errorText.description} rows={5}
-                                          change = {(event) => {changeInputField(event)}}/>
+                                          change = {(event: React.SyntheticEvent) => {changeInputField(event)}}/>
                             </div>
                         </div>
                         <FormSubmitButton/>

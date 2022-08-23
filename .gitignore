@@ -1,3 +1,4 @@
 public/
 /node_modules
 appTs/
+app/es2015.promise.d.ts

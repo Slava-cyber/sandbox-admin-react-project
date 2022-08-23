@@ -7,23 +7,33 @@ import {
     ColumnsEventTable,
     ColumnsRequestTable} from './jsFunctions/tableFunction';
 
-function DataTable(props) {
-    const [data, setData] : any[] = useState([]);
+function DataTable(props: {entity: string}) {
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         getData(props.entity)
             .then(
-                response => setData(response)
+                (response : any) => setData(response)
             );
     }, []);
 
-    const titleArray = {
+    const titleArray: {
+        [key: string]: string
+    } = {
         'user': "Таблица пользователей",
         'event': "Таблица ивентов",
         'request': "Таблица запросов"
     };
 
-    const columnDataFunction = {
+    const columnDataFunction: {
+        [key: string]: (
+            props: { entity: string },
+            setData: (value: (((prevState: any[]) => any[]) | any[])) => void,
+            deleteObject: (
+                id: number,
+                entity: string,
+                setData: (value: (((prevState: any[]) => any[]) | any[])) => void) => void) => any[]
+    } = {
         'user': ColumnsUserTable,
         'event': ColumnsEventTable,
         'request': ColumnsRequestTable

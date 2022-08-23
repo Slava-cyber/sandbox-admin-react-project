@@ -1,35 +1,65 @@
 import FetchRequest from "./fetchRequest";
+import React from "react";
+import {
+    userEntityData,
+    eventEntityData,
+    requestEntityData,
+    eventEntityClassError,
+    userEntityClassError,
+    requestEntityClassError,
+    userEntityTextError,
+    eventEntityTextError,
+    requestEntityTextError,
+} from "../../ts-interfaces";
 
-export const submitForm = (
-        event,
-        data,
-        apiRequestLink,
-        linkAfterCreation,
-        basicErrorArray,
-        basicTextErrorArray,
-        setError,
-        setErrorText
-    ) => {
+    function writeToArray <T, Key extends keyof T>(arr: T, field: Key, value: any): T {
+        arr[field] = value;
+        return arr;
+
+}
+
+export function submitForm <
+                    T extends eventEntityClassError | requestEntityClassError | userEntityClassError,
+                    U extends eventEntityTextError | requestEntityTextError | userEntityTextError,
+        > (
+        event: React.SyntheticEvent,
+        data: {
+            'data': userEntityData | eventEntityData | requestEntityData,
+            'id'?: number
+        },
+        apiRequestLink: string,
+        linkAfterCreation: string,
+        basicErrorArray: () => T,
+        basicTextErrorArray: () => U,
+        setError:
+            (value: (((prevState: T) => T) | T)) => void,
+        setErrorText:
+            (value: (((prevState: U) => U) | U)) => void
+    )  {
     event.preventDefault();
     FetchRequest(
         JSON.stringify(data),
         "POST",
         apiRequestLink)
         .then(response => response.json())
-        .then((response) => {
+        .then((response: {
+            'status': boolean,
+            'error'?:
+                eventEntityClassError | requestEntityClassError | userEntityClassError
+        }) => {
             if (response.status == true) {
                 window.location.href = linkAfterCreation;
             } else {
                 let errorArray = basicErrorArray();
-                let textErrorArray =basicTextErrorArray();
+                let textErrorArray = basicTextErrorArray();
                 let fields = response.error;
-                for (let field in fields)
-                {
-                    errorArray[field] = 'is-invalid';
-                    textErrorArray[field] = response.error[field];
+                for (let field in fields) {
+
+                    errorArray = writeToArray(errorArray, field as keyof T, 'is-invalid');
+                    textErrorArray = writeToArray(textErrorArray, field as keyof U, 'is-invalid');
                 }
                 setError(errorArray);
-                setErrorText(textErrorArray);
+                setErrorText(textErrorArray)
             }
         });
 }

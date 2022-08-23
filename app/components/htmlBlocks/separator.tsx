@@ -1,6 +1,10 @@
 import React from "react";
 
-function Separator(props) {
+interface separator {
+    title: string
+}
+
+function Separator(props: separator) {
     return (
         <div className="mt-2">
             <strong>{props.title}</strong>
