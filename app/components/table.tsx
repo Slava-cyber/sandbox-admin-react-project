@@ -8,11 +8,6 @@ interface globalFilterProps {
     setGlobalFilter : (filterValue: FilterValue) => void
 }
 
-/*function GlobalFilter(
-                       {preGlobalFilteredRows} : {preGlobalFilteredRows :  Row[]},
-                       {globalFilter}: {globalFilter : any},
-                       {setGlobalFilter} : {setGlobalFilter: (filterValue: FilterValue) => void}
-                      )  { */
   function GlobalFilter(props: globalFilterProps): JSX.Element {
     const count = props.preGlobalFilteredRows.length
     const [value, setValue]: FilterValue = React.useState(props.globalFilter)
