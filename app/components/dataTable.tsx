@@ -2,20 +2,23 @@ import React, { useEffect , useState} from 'react';
 import Table from './table';
 import {
     getData,
-    deleteObject,
     ColumnsUserTable,
     ColumnsEventTable,
     ColumnsRequestTable} from './jsFunctions/tableFunction';
 
+import { useAppSelector, useAppDispatch } from "../store/hooks";
+import { update } from '../store/slice';
+
 function DataTable(props: {entity: string}) {
-    const [data, setData] = useState([]);
+    const data = useAppSelector(state => state.slice.data);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         getData(props.entity)
             .then(
-                (response : any) => setData(response)
+                (response: any) => dispatch(update(response))
             );
-    }, []);
+    }, [dispatch]);
 
     const titleArray: {
         [key: string]: string
@@ -27,19 +30,15 @@ function DataTable(props: {entity: string}) {
 
     const columnDataFunction: {
         [key: string]: (
-            props: { entity: string },
-            setData: (value: (((prevState: any[]) => any[]) | any[])) => void,
-            deleteObject: (
-                id: number,
-                entity: string,
-                setData: (value: (((prevState: any[]) => any[]) | any[])) => void) => void) => any[]
+            props: { entity: string }
+        ) => any[]
     } = {
         'user': ColumnsUserTable,
         'event': ColumnsEventTable,
         'request': ColumnsRequestTable
     }
 
-    let columns = columnDataFunction[props.entity] ? columnDataFunction[props.entity](props, setData, deleteObject) : [];
+    let columns = columnDataFunction[props.entity] ? columnDataFunction[props.entity](props) : [];
     let title = titleArray[props.entity] ? titleArray[props.entity] : "";
 
     return (

@@ -1,13 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React  from "react";
+import {useAppDispatch} from "../../store/hooks";
+import {deleteRecord} from "../../store/slice";
 
 interface modalWindow {
     value?: string,
     sourceTitle: string,
     body: string,
-    delete: any
+    entity: string,
+    id: number
 }
 
 function DeleteModalWindow(props: modalWindow) {
+    const dispatch = useAppDispatch();
+
     return (
         <>
             <div className="row py-2">
@@ -34,7 +39,7 @@ function DeleteModalWindow(props: modalWindow) {
                                     data-bs-dismiss="modal">Отмена
                             </button>
                             <button type="button" className="btn btn-primary" id="action"
-                                    onClick={props.delete} data-bs-dismiss="modal">Подтвердить</button>
+                                    onClick={() => dispatch(deleteRecord(props.entity, props.id))} data-bs-dismiss="modal">Подтвердить</button>
                         </div>
                     </div>
                 </div>

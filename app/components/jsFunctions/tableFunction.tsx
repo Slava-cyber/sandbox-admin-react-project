@@ -26,31 +26,6 @@ export const getData = (entity : string): any => {
     })
 }
 
-export const deleteObject = (
-    id : number,
-    entity : string,
-    setData: (value: (((prevState: any[]) => any[]) | any[])) => void): void => {
-    FetchRequest(
-        JSON.stringify (
-            {
-                'entityType': entity,
-                'id': id
-            }),
-        "POST",
-        '/userApiDelete')
-        .then(response => response.json())
-        .then((data) => {
-            if (data['status']) {
-                getData(entity)
-                    .then(
-                        (response : any) => {
-                            setData(response as any[])
-                        }
-                    );
-            }
-        });
-}
-
 export const changeRole = (event: React.SyntheticEvent, id: number) => {
     FetchRequest(
         JSON.stringify (
@@ -67,11 +42,7 @@ export const changeRole = (event: React.SyntheticEvent, id: number) => {
 
 export const ColumnsUserTable = (
     props: {entity: string},
-    setData: (value: (((prevState: any[]) => any[]) | any[])) => void,
-    deleteObject: (
-        id: number,
-        entity: string,
-        setData: (value: (((prevState: any[]) => any[]) | any[])) => void) => void): any[] => {
+): any[] => {
     const options = ["administrator", "user", "advanced user"];
 
     const columns = React.useMemo(
@@ -137,7 +108,8 @@ export const ColumnsUserTable = (
                 accessor: "id",
                 Cell: (cellProps: CellProps<CustomRow, string>) => <DeleteModalWindow value={cellProps.cell.value} sourceTitle={"Удалить"}
                                               body={"Вы уверены, что хотите удалить запись в таблице?"}
-                                              delete = {() => {deleteObject(cellProps.cell.value, props.entity, setData)}}/>
+                                              entity={props.entity} id={cellProps.cell.value}
+                                                        />
             },
         ],
         []
@@ -147,11 +119,7 @@ export const ColumnsUserTable = (
 
 export const ColumnsEventTable = (
     props: {entity: string},
-    setData: (value: (((prevState: any[]) => any[]) | any[])) => void,
-    deleteObject: (
-        id: number,
-        entity: string,
-        setData: (value: (((prevState: any[]) => any[]) | any[])) => void) => void): any[] => {
+): any[] => {
         const columns = React.useMemo(
         () => [
             {
@@ -197,7 +165,8 @@ export const ColumnsEventTable = (
                 accessor: "id",
                 Cell: (cellProps: CellProps<CustomRow, number>) => <DeleteModalWindow value={cellProps.cell.value} sourceTitle={"Удалить"}
                                               body={"Вы уверены, что хотите удалить запись в таблице?"}
-                                              delete = {() => {deleteObject(cellProps.cell.value, props.entity, setData)}}/>
+                                              entity={props.entity} id = {cellProps.cell.value}
+                                                            />
             },
         ],
         []
@@ -206,12 +175,8 @@ export const ColumnsEventTable = (
 }
 
 export const ColumnsRequestTable = (
-    props: {entity: string},
-    setData: (value: (((prevState: any[]) => any[]) | any[])) => void,
-    deleteObject: (
-        id: number,
-        entity: string,
-        setData: (value: (((prevState: any[]) => any[]) | any[])) => void) => void): any[] => {
+    props: {entity: string}
+): any[] => {
     const columns = React.useMemo(
         () => [
             {
@@ -244,7 +209,8 @@ export const ColumnsRequestTable = (
                 accessor: "id",
                 Cell: (cellProps: CellProps<CustomRow, number>) => <DeleteModalWindow value={cellProps.cell.value} sourceTitle={"Удалить"}
                                               body={"Вы уверены, что хотите удалить запись в таблице?"}
-                                              delete = {() => {deleteObject(cellProps.cell.value, props.entity, setData)}}/>
+                                              entity={props.entity} id={cellProps.cell.value}
+                                                        />
             },
         ],
         []
