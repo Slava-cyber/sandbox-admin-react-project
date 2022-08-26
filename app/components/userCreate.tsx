@@ -79,11 +79,10 @@ function UserCreate() {
         var formData = new FormData();
         formData.append("all", json_arr);
         formData.append("userfile", image);
-        FetchRequest({
-                formData
-            },
-            "POST",
-            '/validation')
+        fetch('/validation', {
+            method: 'POST',
+            body: formData
+        })
             .then(response => response.json())
             .then((response) => {
                 if (response.status == true) {
