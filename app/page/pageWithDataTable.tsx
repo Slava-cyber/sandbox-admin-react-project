@@ -25,8 +25,10 @@ function PageWithDataTable(props: page) {
 
     return (
         <>
-            <Navbar navbarActiveTabs={NavbarActiveTabs}/>
-            <DataTable entity={props.entity}/>
+            <div className={"bg-white"}>
+                <Navbar navbarActiveTabs={NavbarActiveTabs}/>
+                <DataTable entity={props.entity}/>
+            </div>
         </>
     )
 }

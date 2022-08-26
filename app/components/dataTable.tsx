@@ -44,7 +44,7 @@ function DataTable(props: {entity: string}) {
     return (
         <>
             <div className={"row"}>
-                <div className={"col-md-12 text-center my-3"}>
+                <div className={ "col-md-12 text-center my-3"}>
                     <h3>{title}</h3>
                 </div>
                 <div className={"text-secondary ms-4 mb-2"}>

@@ -2,7 +2,9 @@ import React from 'react';
 
 function PageDoesNotExist() {
     return (
-        <h5>Ты не пройдешь</h5>
+        <div className={'bg-white'}>
+            <h5>Ты не пройдешь</h5>
+        </div>
     );
 }
 

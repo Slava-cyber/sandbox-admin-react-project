@@ -35,8 +35,10 @@ function CreationPage(props : page) {
 
     return (
         <>
-            <Navbar navbarActiveTabs={navbarActiveTabs}/>
-            <Component/>
+            <div className={'bg-white'}>
+                <Navbar navbarActiveTabs={navbarActiveTabs}/>
+                <Component/>
+            </div>
         </>
     )
 }
