@@ -15,8 +15,12 @@ import {
     function writeToArray <T, Key extends keyof T>(arr: T, field: Key, value: any): T {
         arr[field] = value;
         return arr;
+    }
 
-}
+    function getValueFromArrayByKey <T, Key extends keyof T>(arr: T, field: Key): any {
+        return arr[field];
+    }
+
 
 export function submitForm <
                     T extends eventEntityClassError | requestEntityClassError | userEntityClassError,
@@ -52,11 +56,15 @@ export function submitForm <
             } else {
                 let errorArray = basicErrorArray();
                 let textErrorArray = basicTextErrorArray();
-                let fields = response.error;
+                let fields = response.error as T;
                 for (let field in fields) {
 
                     errorArray = writeToArray(errorArray, field as keyof T, 'is-invalid');
-                    textErrorArray = writeToArray(textErrorArray, field as keyof U, 'is-invalid');
+                    textErrorArray = writeToArray(
+                        textErrorArray,
+                        (field as string) as keyof U,
+                        getValueFromArrayByKey(fields, field as keyof T)
+                    );
                 }
                 setError(errorArray);
                 setErrorText(textErrorArray)
