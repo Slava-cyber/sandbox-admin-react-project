@@ -6,7 +6,7 @@ import FetchRequest from "./jsFunctions/fetchRequest";
 import FormSubmitButton from "./htmlBlocks/formSubmitButton";
 
 import {userEntityTextError, userEntityData, userEntityClassError} from "../ts-interfaces";
-import GetCertainSectionOfForm from "./htmlBlocks/wrappers/getCertainSectionOfForm";
+import GetSectionOfForm from "./htmlBlocks/wrappers/getSectionOfForm";
 
 function UserCreate() {
     const [image, setImage] = useState("/images/system/avatar_null.jpg");
@@ -339,7 +339,7 @@ function UserCreate() {
                             </div>
                         </div>
                         {formFiller.fieldBlock.map(fieldSet => (
-                                <GetCertainSectionOfForm options={fieldSet} fieldChangingFunction= {changeInputField}/>
+                                <GetSectionOfForm options={fieldSet} fieldChangingFunction= {changeInputField}/>
                             ))}
                         <FormSubmitButton/>
                     </form>

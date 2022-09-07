@@ -1,12 +1,12 @@
 import React from "react";
-import GetFormFieldWithCertainType from "./getFormFieldWithCertainType";
+import GetFormFieldOfCertainType from "./getFormFieldOfCertainType";
 
 interface input {
     options: any,
     fieldChangingFunction: (event: React.SyntheticEvent) => void
 }
 
-function CustomRowWithFormFields(props : input) {
+function GetCustomRowWithFormFields(props : input) {
 
 let colSize = "col-md-" + Math.floor(12 / props.options.length);
 return (
@@ -14,7 +14,7 @@ return (
         <div className="row justify-content between">
             {props.options.map((field: any) => (
                 <div className={colSize}>
-                    <GetFormFieldWithCertainType options={field} fieldChangingFunction={props.fieldChangingFunction}/>
+                    <GetFormFieldOfCertainType options={field} fieldChangingFunction={props.fieldChangingFunction}/>
                 </div>
             ))}
         </div>
@@ -22,4 +22,4 @@ return (
 )
 }
 
-export default CustomRowWithFormFields;
+export default GetCustomRowWithFormFields;

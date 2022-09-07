@@ -9,7 +9,7 @@ interface input {
     fieldChangingFunction: (event: React.SyntheticEvent) => void
 }
 
-function GetFormFieldWithCertainType(props : input) {
+function GetFormFieldOfCertainType(props : input) {
     switch (props.options.typeComponent) {
         case 'input':
             return (
@@ -46,4 +46,4 @@ function GetFormFieldWithCertainType(props : input) {
     }
 }
 
-export default GetFormFieldWithCertainType;
+export default GetFormFieldOfCertainType;

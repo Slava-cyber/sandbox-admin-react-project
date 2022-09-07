@@ -1,36 +1,36 @@
 import React from "react";
 import Separator from "../separator";
-import CustomRowWithFormFields from "./customRowWithFormFields";
+import GetCustomRowWithFormFields from "./getCustomRowWithFormFields";
 
 interface input {
     options: any
     fieldChangingFunction: (event: React.SyntheticEvent) => void
 }
 
-function GetCertainSectionOfForm(props : input) {
+function GetSectionOfForm(props : input) {
     let sectionDividerWithTitle: JSX.Element = <></>;
     if (props.options.type == 'separator') {
         sectionDividerWithTitle = <Separator title={props.options.title}/>
     }
 
-    let arrayWithFieldsGroupedByRows: any = [];
-    let arrayWithFieldsForOneRow: any = []
+    let fieldsGroupedByRows: any = [];
+    let fieldsForOneRow: any = []
     props.options.fields.forEach(function(field: any, i:number) {
-        arrayWithFieldsForOneRow.push(field);
+        fieldsForOneRow.push(field);
         if (((i + 1) % 2 === 0) || (field.typeComponent === 'textarea')) {
-            arrayWithFieldsGroupedByRows.push(arrayWithFieldsForOneRow);
-            arrayWithFieldsForOneRow = [];
+            fieldsGroupedByRows.push(fieldsForOneRow);
+            fieldsForOneRow = [];
         }
     });
 
     return (
         <>
             {sectionDividerWithTitle}
-            {arrayWithFieldsGroupedByRows.map((field: any) => (
-                <CustomRowWithFormFields options={field} fieldChangingFunction={props.fieldChangingFunction} />
+            {fieldsGroupedByRows.map((field: any) => (
+                <GetCustomRowWithFormFields options={field} fieldChangingFunction={props.fieldChangingFunction} />
             ))}
         </>
     )
 }
 
-export default GetCertainSectionOfForm;
+export default GetSectionOfForm;
