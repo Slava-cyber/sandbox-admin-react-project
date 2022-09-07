@@ -3,13 +3,10 @@ import React, {useEffect, useState} from 'react';
 import {submitForm} from "./jsFunctions/creationFunction";
 import FetchRequest from "./jsFunctions/fetchRequest";
 
-import Separator from "./htmlBlocks/separator";
 import FormSubmitButton from "./htmlBlocks/formSubmitButton";
-import Input from "./htmlBlocks/input";
-import Select from "./htmlBlocks/select";
-import Textarea from "./htmlBlocks/textarea";
 
 import {userEntityTextError, userEntityData, userEntityClassError} from "../ts-interfaces";
+import GetCertainSectionOfForm from "./htmlBlocks/wrappers/getCertainSectionOfForm";
 
 function UserCreate() {
     const [image, setImage] = useState("/images/system/avatar_null.jpg");
@@ -158,6 +155,157 @@ function UserCreate() {
         };
     }
 
+    let formFiller = {
+        'method': 'POST',
+        'action': '/login',
+        'name': 'eventAdd',
+        'onSubmit': (event: any) => {submitForm(
+            event,
+            data,
+            apiRequestLink,
+            linkAfterCreation,
+            basicErrorArray,
+            basicTextErrorArray,
+            setError,
+            setErrorText
+        )},
+        'title': 'Форма создания пользователя',
+        'fieldChangingFunction': changeInputField,
+        'fieldBlock': [
+            {
+                'type': 'separator',
+                'title': 'Основная информация',
+                'fields': [
+                    {
+                        'typeComponent': 'input',
+                        'type': 'text',
+                        'placeholder': 'Имя',
+                        'class': error.name,
+                        'id': 'name',
+                        'value': userData.name,
+                        'errorText': errorText.name,
+                    },
+                    {
+                        'typeComponent': 'input',
+                        'type': 'text',
+                        'placeholder': 'Фамилия',
+                        'class': error.surname,
+                        'id': 'surname',
+                        'value': userData.surname,
+                        'errorText': errorText.surname,
+                    },
+                    {
+                        'typeComponent': 'input',
+                        'type': 'date',
+                        'placeholder': 'Выберите дату рождения',
+                        'class': error.date_of_birth,
+                        'id': 'date_of_birth',
+                        'value': userData.date_of_birth,
+                        'errorText': errorText.date_of_birth,
+                    },
+                    {
+                        'typeComponent': 'select',
+                        'options': options,
+                        'placeholder': 'Фамилия',
+                        'class': error.sex,
+                        'id': 'sex',
+                        'value': userData.sex,
+                        'selected': '',
+                        'errorText': errorText.sex,
+                    },
+                    {
+                        'typeComponent': 'input',
+                        'type': 'text',
+                        'placeholder': 'Логин',
+                        'class': error.login_sign_up,
+                        'id': 'login_sign_up',
+                        'value': userData.login_sign_up,
+                        'errorText': errorText.login_sign_up,
+                    },
+                    {
+                        'typeComponent': 'input',
+                        'type': 'text',
+                        'placeholder': 'Город',
+                        'class': error.town,
+                        'id': 'town',
+                        'value': userData.town,
+                        'errorText': errorText.town,
+                    },
+                    {
+                        'typeComponent': 'input',
+                        'type': 'password',
+                        'placeholder': 'Пароль',
+                        'class': error.password_sign_up,
+                        'id': 'password_sign_up',
+                        'value': userData.password_sign_up,
+                        'errorText': errorText.password_sign_up,
+                    },
+                    {
+                        'typeComponent': 'input',
+                        'type': 'password',
+                        'placeholder': 'Подтвердите пароль',
+                        'class': error.password_confirm,
+                        'id': 'password_confirm',
+                        'value': userData.password_confirm,
+                        'errorText': errorText.password_confirm,
+                    }
+                ]
+            },
+            {
+                'type': 'separator',
+                'title': 'Контакты',
+                'fields': [
+                    {
+                        'typeComponent': 'input',
+                        'type': 'text',
+                        'placeholder': 'Введите номер телефона',
+                        'class': error.phone_number,
+                        'id': 'phone_number',
+                        'value': userData.phone_number,
+                        'errorText': errorText.phone_number,
+                    },
+                    {
+                        'typeComponent': 'input',
+                        'type': 'email',
+                        'placeholder': 'Введите email',
+                        'class': error.email,
+                        'id': 'email',
+                        'value': userData.email,
+                        'errorText': errorText.email,
+                    }
+               ]
+            },
+            {
+                'type': 'separator',
+                'title': 'Личная информация',
+                'fields': [
+                    {
+                        'typeComponent': 'textarea',
+                        'rows': 3,
+                        'placeholder': 'Интересы',
+                        'class': error.interest,
+                        'id': 'interest',
+                        'value': userData.interest,
+                        'errorText': errorText.interest,
+                    },
+                    {
+                        'typeComponent': 'textarea',
+                        'rows': 5,
+                        'type': 'email',
+                        'placeholder': 'О себе',
+                        'class': error.description,
+                        'id': 'description',
+                        'value': userData.description,
+                        'errorText': errorText.description,
+                    }
+                ]
+            }
+        ]
+    };
+
+
+
+
     let data = {
         'data' : userData,
     };
@@ -169,17 +317,9 @@ function UserCreate() {
         <>
             <div className="row justify-content-center">
                 <div className="col-sm-12 bg-white p-3 col-md-10">
-                    <form method="POST" action="/login" name="eventAdd" id="eventAdd" onSubmit={(event) => {submitForm(
-                        event,
-                        data,
-                        apiRequestLink,
-                        linkAfterCreation,
-                        basicErrorArray,
-                        basicTextErrorArray,
-                        setError,
-                        setErrorText
-                    )}}>
-                        <h3 className="text-center mb-1">Форма создания пользователя</h3>
+                    <form method={formFiller.method} action={formFiller.action} name={formFiller.name} id={formFiller.name}
+                          onSubmit={formFiller.onSubmit}>
+                        <h3 className="text-center mb-1">{formFiller.title}</h3>
                         <div className="row justify-content-center">
                             <div className="col-md-5">
                                 <div className="d-flex flex-column align-items-center text-center py-5">
@@ -198,76 +338,9 @@ function UserCreate() {
                                 </div>
                             </div>
                         </div>
-                        <Separator title={'Основная информация'} />
-                        <div className="row justify-content between">
-                            <div className="col-md-6 col-sm-12">
-                                <Input type={'text'} placeholder={'Имя'} class = {error.name}
-                                       id={"name"} value = {userData.name}
-                                       errorText = {errorText.name} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
-                            </div>
-                            <div className="col-md-6 col-sm-12">
-                                <Input type={'text'} placeholder={'Фамилия'} class = {error.surname}
-                                       id={"surname"} value = {userData.surname}
-                                       errorText = {errorText.surname} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
-                            </div>
-                            <div className="col-md-6 col-sm-12">
-                                <Input type={'date'} placeholder={'Выберите дату рождения'} class = {error.date_of_birth}
-                                       id={"date_of_birth"} value = {userData.date_of_birth as string}
-                                       errorText = {errorText.date_of_birth} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
-                            </div>
-                            <div className="col-md-6 col-sm-12">
-                                <Select options = {options} class={error.sex} id={"sex"}
-                                        errorText = {errorText.sex} selected={""}
-                                        change = {(event: React.SyntheticEvent) => {changeInputField(event)}}/>
-
-                            </div>
-                            <div className="col-md-6 col-sm-12">
-                                <Input type={'text'} placeholder={'Логин'} class = {error.login_sign_up}
-                                       id={"login_sign_up"} value = {userData.login_sign_up}
-                                       errorText = {errorText.login_sign_up} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
-                            </div>
-                            <div className="col-md-6 col-sm-12">
-                                <Input type={'text'} placeholder={'Город'} class = {error.town}
-                                       id={"town"} value = {userData.town}
-                                       errorText = {errorText.town} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
-                            </div>
-                            <div className="col-md-6 col-sm-12">
-                                <Input type={'password'} placeholder={'Пароль'} class = {error.password_sign_up}
-                                       id={"password_sign_up"} value = {userData.password_sign_up}
-                                       errorText = {errorText.password_sign_up} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
-                            </div>
-                            <div className="col-md-6 col-sm-12">
-                                <Input type={'password'} placeholder={'Подтвердите пароль'} class = {error.password_confirm}
-                                       id={"password_confirm"} value = {userData.password_confirm}
-                                       errorText = {errorText.password_confirm} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
-                            </div>
-                        </div>
-                        <Separator title={'Контакты'} />
-                        <div className="row justify-content between">
-                            <div className="col-md-6 col-sm-12">
-                                <Input type={'text'} placeholder={'Введите номер телефона'} class = {error.phone_number}
-                                       id={"phone_number"} value = {userData.phone_number}
-                                       errorText = {errorText.phone_number} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
-                            </div>
-                            <div className="col-md-6 col-sm-12">
-                                <Input type={'email'} placeholder={'Введите email'} class = {error.email}
-                                       id={"email"} value = {userData.email}
-                                       errorText = {errorText.email} change={(event: React.SyntheticEvent) => {changeInputField(event)}} />
-                            </div>
-                        </div>
-                        <Separator title={'Личная информация'} />
-                        <div className="row justify-content between">
-                            <div className="col-md-12">
-                                <Textarea class={error.interest} id={"interest"} placeholder={"Интересы"}
-                                          value={userData.interest} errorText={errorText.interest} rows={3}
-                                          change = {(event: React.SyntheticEvent) => {changeInputField(event)}}/>
-                            </div>
-                            <div className="col-md-12">
-                                <Textarea class={error.description} id={"description"} placeholder={"О себе"}
-                                          value={userData.description} errorText={errorText.description} rows={5}
-                                          change = {(event: React.SyntheticEvent) => {changeInputField(event)}}/>
-                            </div>
-                        </div>
+                        {formFiller.fieldBlock.map(fieldSet => (
+                                <GetCertainSectionOfForm options={fieldSet} fieldChangingFunction= {changeInputField}/>
+                            ))}
                         <FormSubmitButton/>
                     </form>
                 </div>
